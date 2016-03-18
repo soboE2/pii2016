@@ -1,5 +1,7 @@
 package actions.standard.form;
 
+import gui.standard.form.StandardForm;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -22,6 +24,9 @@ public class AddAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
+		StandardForm senderForm = (StandardForm)standardForm;
+		senderForm.getStateManager().setCurrentState(senderForm.getStateManager().getInsertState());
+		
 	}
 }

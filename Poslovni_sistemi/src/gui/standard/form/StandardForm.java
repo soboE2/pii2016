@@ -1,5 +1,6 @@
 package gui.standard.form;
 
+import forms.state.StateManager;
 import gui.main.form.MainFrame;
 import gui.standard.menuItem.MyMenuItems;
 
@@ -46,6 +47,9 @@ public class StandardForm extends JDialog{
 	private JTextField tfNaziv = new JTextField(20);
 	private JTable tblGrid = new JTable(); 
 	private Map<Column, JComponent> form = new HashMap<Column, JComponent>();
+	
+	private StateManager stateManager = new StateManager();
+	
 
 	public StandardForm(MyMenuItems item){
 
@@ -159,6 +163,16 @@ public class StandardForm extends JDialog{
 
 		add(bottomPanel, "grow, wrap");
 	}
+
+	public StateManager getStateManager() {
+		return stateManager;
+	}
+
+	public void setStateManager(StateManager stateManager) {
+		this.stateManager = stateManager;
+	}
+	
+	
 
 
 }
