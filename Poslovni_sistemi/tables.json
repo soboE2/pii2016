@@ -1,0 +1,536 @@
+{"tabele": [
+  {
+    "tableName": "Analitika izvoda",
+    "columns": [
+      {
+        "name": "Broj iznosa",
+        "code": "BROJ_IZNOSA",
+        "type": "int"
+      },
+      {
+        "name": "Broj stavke",
+        "code": "BROJ_STAVKE_",
+        "type": "int"
+      },
+      {
+        "name": "Sifra mesta",
+        "code": "SIFRA_MESTA_",
+        "type": "int"
+      },
+      {
+        "name": "Sifra valute",
+        "code": "SIFRA_VALUTE",
+        "type": "char"
+      },
+      {
+        "name": "Oznak vrste",
+        "code": "OZNAK_VRSTE",
+        "type": "char"
+      },
+      {
+        "name": "Duznik nalogodavac",
+        "code": "DUZNIK_NALOGODAVAC",
+        "type": "varchar"
+      },
+      {
+        "name": "Svrha placanja",
+        "code": "SVRHA_PLACANJA",
+        "type": "varchar"
+      },
+      {
+        "name": "Poverilac primalac",
+        "code": "POVERILAC_PRIMALAC",
+        "type": "varchar"
+      },
+      {
+        "name": "Datum prijema",
+        "code": "DATUM_PRIJEMA",
+        "type": "datetime"
+      },
+      {
+        "name": "Datum valute",
+        "code": "DATUM_VALUTE",
+        "type": "datetime"
+      },
+      {
+        "name": "Racun duznika",
+        "code": "RACUN_DUZNIKA",
+        "type": "varchar"
+      },
+      {
+        "name": "Model zaduzenja",
+        "code": "MODEL_ZADUZENJA",
+        "type": "numeric"
+      },
+      {
+        "name": "Poziv na broj zaduzenja",
+        "code": "POZIV_NA_BROJ_ZADUZENJA",
+        "type": "varchar"
+      },
+      {
+        "name": "Racun poverioca",
+        "code": "RACUN_POVERIOCA",
+        "type": "varchar"
+      },
+      {
+        "name": "Model odobrenja",
+        "code": "MODEL_ODOBRENJA",
+        "type": "numeric"
+      },
+      {
+        "name": "Poziv na broj odobrenja",
+        "code": "POZIV_NA_BROJ_ODOBRENJA",
+        "type": "varchar"
+      },
+      {
+        "name": "Hitno",
+        "code": "HITNO_",
+        "type": "bit"
+      },
+      {
+        "name": "Iznos",
+        "code": "IZNOS",
+        "type": "decimal"
+      },
+      {
+        "name": "Smer",
+        "code": "SMER",
+        "type": "char"
+      },
+      {
+        "name": "Tip greske",
+        "code": "TIP_GRESKE",
+        "type": "numeric"
+      },
+      {
+        "name": "Status",
+        "code": "STATUS",
+        "type": "char"
+      }
+    ],
+    "code": "ANALITIKA_IZVODA"
+  },
+  {
+    "tableName": "Analitika preseka",
+    "columns": [
+      {
+        "name": "Pre broj racuna",
+        "code": "PRE_BROJ_RACUNA",
+        "type": "varchar"
+      },
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Broj preseka",
+        "code": "BROJ_PRESEKA",
+        "type": "int"
+      },
+      {
+        "name": "Redni broj preseka",
+        "code": "REDNI_BROJ_PRESEKA",
+        "type": "int"
+      },
+      {
+        "name": "Broj racuna",
+        "code": "BROJ_RACUNA",
+        "type": "varchar"
+      },
+      {
+        "name": "Broj iznosa",
+        "code": "BROJ_IZNOSA",
+        "type": "int"
+      },
+      {
+        "name": "Broj stavke",
+        "code": "BROJ_STAVKE_",
+        "type": "int"
+      }
+    ],
+    "code": "ANALITIKA_PRESEKA"
+  },
+  {
+    "tableName": "Dnevno staje racuna",
+    "columns": [
+      {
+        "name": "Broj iznosa",
+        "code": "BROJ_IZNOSA",
+        "type": "int"
+      },
+      {
+        "name": "Broj racuna",
+        "code": "BROJ_RACUNA",
+        "type": "varchar"
+      },
+      {
+        "name": "Datum prometa",
+        "code": "DATUM_PROMETA",
+        "type": "datetime"
+      },
+      {
+        "name": "Prethodno stanje",
+        "code": "PRETHODNO_STANJE",
+        "type": "decimal"
+      },
+      {
+        "name": "Promet u korist",
+        "code": "PROMET_U_KORIST",
+        "type": "decimal"
+      },
+      {
+        "name": "Promet na teret",
+        "code": "PROMET_NA_TERET",
+        "type": "decimal"
+      },
+      {
+        "name": "Novo stanje",
+        "code": "NOVO_STANJE",
+        "type": "decimal"
+      }
+    ],
+    "code": "DNEVNO_STAJE_RACUNA"
+  },
+  {
+    "tableName": "Drzava",
+    "columns": [
+      {
+        "name": "Sifra drzave",
+        "code": "SIFRA_DRZAVE",
+        "type": "char"
+      },
+      {
+        "name": "Naziv drzave",
+        "code": "NAZIV_DRZAVE",
+        "type": "varchar"
+      }
+    ],
+    "code": "DRZAVA"
+  },
+  {
+    "tableName": "Kodovi banke",
+    "columns": [
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Sifra banke",
+        "code": "SIFRA_BANKE",
+        "type": "int"
+      },
+      {
+        "name": "Swift kod",
+        "code": "SWIFT_KOD",
+        "type": "char"
+      }
+    ],
+    "code": "KODOVI_BANKE"
+  },
+  {
+    "tableName": "Kurs u valuti",
+    "columns": [
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Datum",
+        "code": "DATUM",
+        "type": "datetime"
+      },
+      {
+        "name": "Redni broj",
+        "code": "REDNI_BROJ",
+        "type": "int"
+      },
+      {
+        "name": "Sifra valute",
+        "code": "SIFRA_VALUTE",
+        "type": "char"
+      },
+      {
+        "name": "Val sifra valute",
+        "code": "VAL_SIFRA_VALUTE",
+        "type": "char"
+      },
+      {
+        "name": "Kupovina",
+        "code": "KUPOVINA",
+        "type": "decimal"
+      },
+      {
+        "name": "Srednji",
+        "code": "SREDNJI",
+        "type": "decimal"
+      },
+      {
+        "name": "Prodajni",
+        "code": "PRODAJNI",
+        "type": "decimal"
+      }
+    ],
+    "code": "KURS_U_VALUTI"
+  },
+  {
+    "tableName": "Kursna lista",
+    "columns": [
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Datum",
+        "code": "DATUM",
+        "type": "datetime"
+      },
+      {
+        "name": "Broj kursne liste",
+        "code": "BROJ_KURSNE_LISTE",
+        "type": "numeric"
+      },
+      {
+        "name": "Primenjuje se od",
+        "code": "PRIMENJUJE_SE_OD",
+        "type": "datetime"
+      }
+    ],
+    "code": "KURSNA_LISTA"
+  },
+  {
+    "tableName": "Naseljeno mesto",
+    "columns": [
+      {
+        "name": "Sifra mesta",
+        "code": "SIFRA_MESTA_",
+        "type": "int"
+      },
+      {
+        "name": "Sifra drzave",
+        "code": "SIFRA_DRZAVE",
+        "type": "char"
+      },
+      {
+        "name": "Naziv naseljenog mesta",
+        "code": "NAZIV_NASELJENOG_MESTA",
+        "type": "varchar"
+      },
+      {
+        "name": "Pttoznaka",
+        "code": "PTTOZNAKA",
+        "type": "varchar"
+      }
+    ],
+    "code": "NASELJENO_MESTO"
+  },
+  {
+    "tableName": "Pravna lica",
+    "columns": [
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Naziv pravnog lica",
+        "code": "NAZIV_PRAVNOG_LICA",
+        "type": "varchar"
+      },
+      {
+        "name": "Adresa",
+        "code": "ADRESA",
+        "type": "varchar"
+      },
+      {
+        "name": "E mail",
+        "code": "E_MAIL",
+        "type": "varchar"
+      },
+      {
+        "name": "Web",
+        "code": "WEB",
+        "type": "varchar"
+      },
+      {
+        "name": "Telefon",
+        "code": "TELEFON",
+        "type": "varchar"
+      },
+      {
+        "name": "Fax",
+        "code": "FAX",
+        "type": "varchar"
+      },
+      {
+        "name": "Banka",
+        "code": "BANKA_",
+        "type": "bit"
+      }
+    ],
+    "code": "PRAVNA_LICA"
+  },
+  {
+    "tableName": "Prenos izvoda",
+    "columns": [
+      {
+        "name": "Broj racuna",
+        "code": "BROJ_RACUNA",
+        "type": "varchar"
+      },
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Broj preseka",
+        "code": "BROJ_PRESEKA",
+        "type": "int"
+      },
+      {
+        "name": "Broj iznosa",
+        "code": "BROJ_IZNOSA",
+        "type": "int"
+      },
+      {
+        "name": "Broj promena u korist",
+        "code": "BROJ_PROMENA_U_KORIST",
+        "type": "numeric"
+      },
+      {
+        "name": "Ukupno u korist",
+        "code": "UKUPNO_U_KORIST",
+        "type": "decimal"
+      },
+      {
+        "name": "Broj promena na teret",
+        "code": "BROJ_PROMENA_NA_TERET",
+        "type": "numeric"
+      },
+      {
+        "name": "Ukupno na teret",
+        "code": "UKUPNO_NA_TERET",
+        "type": "decimal"
+      },
+      {
+        "name": "Broj  pogresnih stavki u korist",
+        "code": "BROJ__POGRESNIH_STAVKI_U_KORIST",
+        "type": "numeric"
+      },
+      {
+        "name": "Broj pogresnih stavki na teret",
+        "code": "BROJ_POGRESNIH_STAVKI_NA_TERET",
+        "type": "numeric"
+      },
+      {
+        "name": "Status naloga",
+        "code": "STATUS_NALOGA",
+        "type": "char"
+      }
+    ],
+    "code": "PRENOS_IZVODA"
+  },
+  {
+    "tableName": "Racuni pravnih lica",
+    "columns": [
+      {
+        "name": "Broj racuna",
+        "code": "BROJ_RACUNA",
+        "type": "varchar"
+      },
+      {
+        "name": "Sifra valute",
+        "code": "SIFRA_VALUTE",
+        "type": "char"
+      },
+      {
+        "name": "Pib",
+        "code": "PIB",
+        "type": "char"
+      },
+      {
+        "name": "Pra pib",
+        "code": "PRA_PIB",
+        "type": "char"
+      },
+      {
+        "name": "Datum otvaranja",
+        "code": "DATUM_OTVARANJA",
+        "type": "datetime"
+      },
+      {
+        "name": "Vazeci",
+        "code": "VAZECI_",
+        "type": "bit"
+      }
+    ],
+    "code": "RACUNI_PRAVNIH_LICA"
+  },
+  {
+    "tableName": "Ukidanje",
+    "columns": [
+      {
+        "name": "Broj racuna",
+        "code": "BROJ_RACUNA",
+        "type": "varchar"
+      },
+      {
+        "name": "Datum ukidanja",
+        "code": "DATUM_UKIDANJA",
+        "type": "datetime"
+      },
+      {
+        "name": "Sredstava se prenose na racun",
+        "code": "SREDSTAVA_SE_PRENOSE_NA_RACUN",
+        "type": "varchar"
+      }
+    ],
+    "code": "UKIDANJE"
+  },
+  {
+    "tableName": "Valute",
+    "columns": [
+      {
+        "name": "Sifra valute",
+        "code": "SIFRA_VALUTE",
+        "type": "char"
+      },
+      {
+        "name": "Sifra drzave",
+        "code": "SIFRA_DRZAVE",
+        "type": "char"
+      },
+      {
+        "name": "Naziv valute",
+        "code": "NAZIV_VALUTE",
+        "type": "varchar"
+      },
+      {
+        "name": "Domicilna",
+        "code": "DOMICILNA_",
+        "type": "bit"
+      }
+    ],
+    "code": "VALUTE"
+  },
+  {
+    "tableName": "Vrste placanja",
+    "columns": [
+      {
+        "name": "Oznak vrste",
+        "code": "OZNAK_VRSTE",
+        "type": "char"
+      },
+      {
+        "name": "Naziv vrste placanja",
+        "code": "NAZIV_VRSTE_PLACANJA",
+        "type": "varchar"
+      }
+    ],
+    "code": "VRSTE_PLACANJA"
+  }
+]}
