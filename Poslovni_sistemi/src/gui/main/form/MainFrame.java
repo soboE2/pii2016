@@ -1,9 +1,17 @@
 package gui.main.form;
 
+import gui.standard.menuItem.MyMenuItems;
+
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -11,8 +19,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import actions.main.form.DrzaveAction;
+import model.tables.Column;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import actions.main.form.NaseljenoMestoAction;
+import actions.main.form.ShowDialog;
 import database.DBConnection;
 
 public class MainFrame extends JFrame{
@@ -54,11 +68,42 @@ public class MainFrame extends JFrame{
 
 		JMenu orgSemaMenu = new JMenu("Organizaciona šema");
 		orgSemaMenu.setMnemonic(KeyEvent.VK_O);
-		JMenuItem drzaveMI = new JMenuItem(new DrzaveAction());
-		orgSemaMenu.add(drzaveMI);
-		JMenuItem mestoMI = new JMenuItem(new NaseljenoMestoAction());
-		orgSemaMenu.add(mestoMI);
 
+		BufferedReader bf = null;
+		
+		try {
+			bf  =  new BufferedReader(new InputStreamReader(
+			    new FileInputStream("tables.json"), "UTF-8"));
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONTokener tokener = new JSONTokener(bf);
+		JSONObject obj = new JSONObject(tokener);
+		JSONArray tables = obj.getJSONArray("tabele");
+		
+		for(int i = 0; i<tables.length(); i++){
+			JSONArray columns =((JSONObject)tables.get(i)).getJSONArray("columns");
+			String codeT = ((JSONObject)tables.get(i)).getString("code");
+			String nameT = ((JSONObject)tables.get(i)).getString("tableName");
+			ArrayList<Column> col = new ArrayList<Column>();
+			
+			for(int j = 0; j<columns.length(); j++){
+				String code = ((JSONObject)columns.get(j)).getString("code");
+				String name = ((JSONObject)columns.get(j)).getString("name");
+				String type = ((JSONObject)columns.get(j)).getString("type");
+				Column column = new Column(type,name,code);
+				col.add(column);
+			}
+			MyMenuItems item = new MyMenuItems(codeT, nameT, col,new ShowDialog(nameT));
+
+			orgSemaMenu.add(item);
+		}
+		
 		menuBar.add(orgSemaMenu);
 		
 		
