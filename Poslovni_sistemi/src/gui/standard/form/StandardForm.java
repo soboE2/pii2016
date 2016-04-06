@@ -2,6 +2,7 @@ package gui.standard.form;
 
 import forms.state.StateManager;
 import gui.main.form.MainFrame;
+import gui.standard.form.listeners.RowSelectionListener;
 import gui.standard.menuItem.MyMenuItems;
 
 import java.awt.Dimension;
@@ -45,24 +46,24 @@ public class StandardForm extends JDialog{
 	btnPickup, btnRefresh, btnRollback, btnSearch, btnPrevious;
 	private JTextField tfSifra = new JTextField(5);
 	private JTextField tfNaziv = new JTextField(20);
-	private JTable tblGrid = new JTable(); 
+	private MainTable tblGrid = new MainTable(); 
 	private Map<Column, JComponent> form = new HashMap<Column, JComponent>();
-	
+	MyMenuItems items;
 	private StateManager stateManager = new StateManager();
 	
 
 	public StandardForm(MyMenuItems item){
-
+		this.items = item;
 		setLayout(new MigLayout("fill"));
 
 		setSize(new Dimension(800, 600));
 		setTitle(item.getName());
 		setLocationRelativeTo(MainFrame.getInstance());
 		setModal(true);
-		
-		initToolbar();
+		initToolbar();	
 		initTable(item);
 		initGui(item);
+		tblGrid.getSelectionModel().addListSelectionListener(new RowSelectionListener(this));
 		
 	}
 	
@@ -71,13 +72,14 @@ public class StandardForm extends JDialog{
 		add(scrollPane, "grow, wrap");
 		MyTableModel model = new MyTableModel(item);
 		
-		
 		tblGrid.setModel(model);
 		tblGrid.setRowSelectionAllowed(true);
 		tblGrid.setColumnSelectionAllowed(false);
 		tblGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 	}
+	
+	
 	
 	private void initToolbar(){
 
@@ -171,7 +173,16 @@ public class StandardForm extends JDialog{
 	public void setStateManager(StateManager stateManager) {
 		this.stateManager = stateManager;
 	}
-	
+	public void fillForm(){
+		for(Column column : items.getColuumns()){
+			JTextField textF =((JTextField)form.get(column));
+			int row = tblGrid.getSelectedRow();
+			int col = items.getColuumns().indexOf(column);
+			textF.setText(tblGrid.getValueAt(row, col).toString());
+			
+		}
+		
+	}
 	
 
 
