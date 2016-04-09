@@ -31,6 +31,7 @@ public class LastAction extends AbstractAction {
 		int tableCount = table.getRowCount();
 		if( table.getSelectedRow()>=0 && tableCount>0){
 			table.setRowSelectionInterval(tableCount-1, tableCount-1);
+			standardForm.fillForm();
 		}
 	}
 }

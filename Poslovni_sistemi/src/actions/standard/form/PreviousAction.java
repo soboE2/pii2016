@@ -32,6 +32,7 @@ public class PreviousAction extends AbstractAction {
 		if(tableCount>0){
 			if(table.getSelectedRow()>=0 && table.getSelectedRow()-1>=0){
 				table.setRowSelectionInterval(table.getSelectedRow()-1, table.getSelectedRow()-1);
+				standardForm.fillForm();
 			}
 		}
 	}
