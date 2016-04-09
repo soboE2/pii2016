@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 public class SearchAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JDialog standardForm;
 
 	public SearchAction(JDialog standardForm) {

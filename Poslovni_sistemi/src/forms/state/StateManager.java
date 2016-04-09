@@ -13,7 +13,8 @@ public class StateManager {
 		insertState = new InsertState();
 		editState = new EditState();
 		searchState = new SearchState();
-		setRemoveState(new RemoveState());
+		removeState = new RemoveState();
+		
 		
 		currentState = editState;
 	}

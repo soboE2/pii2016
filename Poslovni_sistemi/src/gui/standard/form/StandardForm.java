@@ -44,7 +44,7 @@ public class StandardForm extends JDialog{
 	private JButton btnAdd, btnCommit, btnDelete, btnFirst, btnLast, btnHelp, btnNext, btnNextForm,
 	btnPickup, btnRefresh, btnRollback, btnSearch, btnPrevious;
 	private MainTable tblGrid = new MainTable(); 
-	private Map<Column, JComponent> form = new HashMap<Column, JComponent>();
+	public Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
 	private StateManager stateManager = new StateManager();
 
@@ -182,10 +182,20 @@ public class StandardForm extends JDialog{
 			int row = tblGrid.getSelectedRow();
 			int col = items.getColuumns().indexOf(column);
 			textF.setText(tblGrid.getValueAt(row, col).toString());
-			textF.setEditable(false);
+			if(stateManager.getCurrentState()== stateManager.getInsertState()){
+				textF.setText("");
+			}
 		}
 	}
 	
+	public MyMenuItems getItems() {
+		return items;
+	}
+
+	public void setItems(MyMenuItems items) {
+		this.items = items;
+	}
+
 	public MainTable getFocusedTable() {
 		return tblGrid;
 	}

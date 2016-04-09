@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 public class NextFormAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private StandardForm standardForm;
 	
 	public NextFormAction(StandardForm standardForm) {

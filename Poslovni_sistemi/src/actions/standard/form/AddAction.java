@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+
+import model.tables.Column;
 
 
 
@@ -23,9 +26,12 @@ public class AddAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		StandardForm senderForm = standardForm;
-		senderForm.getStateManager().setCurrentState(senderForm.getStateManager().getInsertState());
-		
+		standardForm.getStateManager().setCurrentState(standardForm.getStateManager().getInsertState());
+		standardForm.getFocusedTable().clearSelection();
+		for(Column column : standardForm.getItems().getColuumns()){
+			JTextField textF =((JTextField)standardForm.form.get(column));
+			textF.setText("");
+			textF.setEditable(true);
+		}
 	}
 }
