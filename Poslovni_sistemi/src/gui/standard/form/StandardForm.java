@@ -37,57 +37,61 @@ import actions.standard.form.RefreshAction;
 import actions.standard.form.RollbackAction;
 import actions.standard.form.SearchAction;
 
-public class StandardForm extends JDialog{
+public class StandardForm extends JDialog {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JToolBar toolBar;
-	private JButton btnAdd, btnCommit, btnDelete, btnFirst, btnLast, btnHelp, btnNext, btnNextForm,
-	btnPickup, btnRefresh, btnRollback, btnSearch, btnPrevious;
-	private MainTable tblGrid = new MainTable(); 
+	private JButton btnAdd, btnCommit, btnDelete, btnFirst, btnLast, btnHelp,
+			btnNext, btnNextForm, btnPickup, btnRefresh, btnRollback,
+			btnSearch, btnPrevious;
+	private MainTable tblGrid = new MainTable();
 	public Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
 	private StateManager stateManager = new StateManager();
 
-	public StandardForm(MyMenuItems item){
+	public StandardForm(MyMenuItems item) {
 		this.items = item;
 		setLayout(new MigLayout("fill"));
 		setSize(new Dimension(800, 600));
 		setTitle(item.getName());
 		setLocationRelativeTo(MainFrame.getInstance());
 		setModal(true);
-		initToolbar();	
+		initToolbar();
 		initTable(item);
 		initGui(item);
-		tblGrid.getSelectionModel().addListSelectionListener(new RowSelectionListener(this));
+		tblGrid.getSelectionModel().addListSelectionListener(
+				new RowSelectionListener(this));
 	}
 	
-	private void initTable(MyMenuItems item){
+	public void ponovo(MyMenuItems item){
+		MyTableModel tableModel = new MyTableModel(item);
+		tableModel.fireTableDataChanged();
+		initTable(item);
+	}
+
+	private void initTable(MyMenuItems item) {
 		JScrollPane scrollPane = new JScrollPane(tblGrid);
 		add(scrollPane, "grow, wrap");
 		MyTableModel model = new MyTableModel(item);
-		
+
 		tblGrid.setModel(model);
 		tblGrid.setRowSelectionAllowed(true);
 		tblGrid.setColumnSelectionAllowed(false);
 		tblGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			
+
 	}
-	
-	
-	
-	private void initToolbar(){
+
+	private void initToolbar() {
 
 		toolBar = new JToolBar();
 		btnSearch = new JButton(new SearchAction(this));
 		toolBar.add(btnSearch);
-
 
 		btnRefresh = new JButton(new RefreshAction());
 		toolBar.add(btnRefresh);
 
 		btnPickup = new JButton(new PickupAction(this));
 		toolBar.add(btnPickup);
-
 
 		btnHelp = new JButton(new HelpAction());
 		toolBar.add(btnHelp);
@@ -108,7 +112,6 @@ public class StandardForm extends JDialog{
 
 		toolBar.addSeparator();
 
-
 		btnAdd = new JButton(new AddAction(this));
 		toolBar.add(btnAdd);
 
@@ -122,9 +125,9 @@ public class StandardForm extends JDialog{
 
 		add(toolBar, "dock north");
 	}
-	
-	private void initGui(MyMenuItems item){
-		
+
+	private void initGui(MyMenuItems item) {
+
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout("fillx"));
 		JPanel dataPanel = new JPanel();
@@ -135,35 +138,35 @@ public class StandardForm extends JDialog{
 		btnRollback = new JButton(new RollbackAction(this));
 
 		ArrayList<Column> columns = item.getColuumns();
-		
-		int i= 0;
-		for(Column col:columns){
-			
-			JLabel lblSifra = new JLabel (col.getName()+ ":");
-			JTextField tFiel = new JTextField(20);		
+
+		int i = 0;
+		for (Column col : columns) {
+
+			JLabel lblSifra = new JLabel(col.getName() + ":");
+			JTextField tFiel = new JTextField(20);
 			form.put(col, tFiel);
 			i++;
-			
-			if(columns.size()< 5){
+
+			if (columns.size() < 5) {
 				dataPanel.add(lblSifra);
-				dataPanel.add(tFiel,"wrap");
-			}else{
-				if(i%3 == 0){
+				dataPanel.add(tFiel, "wrap");
+			} else {
+				if (i % 3 == 0) {
 					dataPanel.add(lblSifra);
 					dataPanel.add(tFiel);
-					dataPanel.add(new JLabel(),"wrap");
-				}else {
+					dataPanel.add(new JLabel(), "wrap");
+				} else {
 					dataPanel.add(lblSifra);
 					dataPanel.add(tFiel);
 				}
 			}
 		}
-				
+
 		bottomPanel.add(dataPanel);
 		buttonsPanel.setLayout(new MigLayout("wrap"));
 		buttonsPanel.add(btnCommit);
 		buttonsPanel.add(btnRollback);
-		bottomPanel.add(buttonsPanel,"dock east");
+		bottomPanel.add(buttonsPanel, "dock east");
 
 		add(bottomPanel, "grow, wrap");
 	}
@@ -176,18 +179,17 @@ public class StandardForm extends JDialog{
 		this.stateManager = stateManager;
 	}
 
-	public void fillForm(){
-		for(Column column : items.getColuumns()){
-			JTextField textF =((JTextField)form.get(column));
-			int row = tblGrid.getSelectedRow();
-			int col = items.getColuumns().indexOf(column);
-			textF.setText(tblGrid.getValueAt(row, col).toString());
-			if(stateManager.getCurrentState()== stateManager.getInsertState()){
-				textF.setText("");
+	public void fillForm() {
+		if (stateManager.getCurrentState() == stateManager.getEditState()
+				|| stateManager.getCurrentState() == stateManager.getRemoveState())
+			for (Column column : items.getColuumns()) {
+				JTextField textF = ((JTextField) form.get(column));
+				int row = tblGrid.getSelectedRow();
+				int col = items.getColuumns().indexOf(column);
+				textF.setText(tblGrid.getValueAt(row, col).toString());
 			}
-		}
 	}
-	
+
 	public MyMenuItems getItems() {
 		return items;
 	}
@@ -203,7 +205,5 @@ public class StandardForm extends JDialog{
 	public void setTblGrid(MainTable tblGrid) {
 		this.tblGrid = tblGrid;
 	}
-	
-
 
 }

@@ -1,7 +1,9 @@
 package forms.state;
 
-public interface State {
+import gui.standard.form.StandardForm;
 
-	void comit();
+public interface State {
+	
+	void comit(StandardForm sf);
 	
 }

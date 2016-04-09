@@ -7,10 +7,12 @@ import gui.standard.form.StandardForm;
 import java.awt.event.ActionEvent;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import model.tables.Column;
 import database.DBConnection;
@@ -34,9 +36,7 @@ public class CommitAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainTable table = standardForm.getFocusedTable();
-		
-		//Stanje brisanje
+		MainTable table = standardForm.getFocusedTable();		
 		if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getRemoveState()){
 			if(table.getSelectedRow() == -1){
 				JOptionPane.showMessageDialog(standardForm, "Brisanje nije omoguceno!!!"+"\n"+"Potrebno je selektovati zeljeni red za brisanje");
@@ -55,7 +55,7 @@ public class CommitAction extends AbstractAction {
 				}
 				
 				basicQuery+=";";
-				System.out.println(basicQuery);
+				//System.out.println(basicQuery);
 				
 				try {
 					PreparedStatement pstmt = DBConnection.getConnection().prepareStatement(basicQuery);
@@ -65,31 +65,51 @@ public class CommitAction extends AbstractAction {
 						pstmt.setString(i+1,(String)table.getValueAt(tableRow, i));
 					}
 					
+				
 				pstmt.execute();
+				pstmt.close();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 			}
 		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getInsertState()){
-
-
+			
+			String insertQuery = "INSERT INTO ";
+			insertQuery += standardForm.getItems().getCode()+" (";
+			for(int i=0; i<table.getColumnCount(); i++){
+				Column col = standardForm.getItems().getColuumns().get(i);
+				if(i+1 == table.getColumnCount()){
+					insertQuery += col.getCode() +" )";
+				}else {
+					insertQuery += col.getCode() + " , ";
+				}
+			}
+			insertQuery += " VALUES (";
+			for(int i=0; i<table.getColumnCount(); i++){
+				Column col = standardForm.getItems().getColuumns().get(i);
+				JTextField textF =((JTextField)standardForm.form.get(col));
+				
+				if(i+1 == table.getColumnCount()){
+					insertQuery += "'"+ textF.getText() +"' );";
+				}else {
+					insertQuery += "'" + textF.getText().toUpperCase() + "' , ";
+				}
+			}
+			try {
+				Statement statement = DBConnection.getConnection().createStatement();
+				statement.executeUpdate(insertQuery);
+				statement.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			//System.out.println(insertQuery);
 			
 		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getEditState()){
 			if(table.getSelectedRow() == -1){
 				JOptionPane.showMessageDialog(standardForm, "Modifikacija  nije moguca!!!"+"\n"+"Potrebno je selektovati zeljeni red za modifikovanje");
 			}else{
-				//Treba ga doraditi
-//				String basicQuery = "UPDATE FROM ";
-//				basicQuery += standardForm.getItems().getCode() + " WHERE ";
-//				for(Column col : standardForm.getItems().getColuumns()){
-//					basicQuery += col.getCode()+" = ? ";
-//				}
-//				
-//				for(Column column : standardForm.getItems().getColuumns()){
-//					JTextField textF =((JTextField)standardForm.form.get(column));
-//					System.out.println(textF.getText());
-//				}
-				
+
 			}
 		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getSearchState()){
 			

@@ -1,18 +1,19 @@
 package actions.standard.form;
 
+import forms.state.SearchState;
+import gui.standard.form.StandardForm;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 
 public class SearchAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
-	@SuppressWarnings("unused")
-	private JDialog standardForm;
+	private StandardForm standardForm;
 
-	public SearchAction(JDialog standardForm) {
+	public SearchAction(StandardForm standardForm) {
 		putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/img/search.gif")));
 		putValue(SHORT_DESCRIPTION, "Pretraga");
 		this.standardForm=standardForm;
@@ -20,6 +21,8 @@ public class SearchAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		SearchState searchState = new SearchState();
+		searchState.comit(standardForm);
 		
 	}
 }
