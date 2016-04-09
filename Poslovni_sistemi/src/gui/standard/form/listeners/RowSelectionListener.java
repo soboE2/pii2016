@@ -19,7 +19,6 @@ public class RowSelectionListener implements ListSelectionListener{
 		// TODO Auto-generated method stub
 		if(e.getValueIsAdjusting()){
 			standForm.fillForm();
-			
 		}
 	}
 

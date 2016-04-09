@@ -6,12 +6,14 @@ public class StateManager {
 	private InsertState insertState;
 	private SearchState searchState;
 	private EditState editState;
+	private RemoveState removeState;
 	
 	public StateManager() {
 		
 		insertState = new InsertState();
 		editState = new EditState();
 		searchState = new SearchState();
+		setRemoveState(new RemoveState());
 		
 		currentState = editState;
 	}
@@ -46,6 +48,14 @@ public class StateManager {
 
 	public void setEditState(EditState editState) {
 		this.editState = editState;
+	}
+
+	public RemoveState getRemoveState() {
+		return removeState;
+	}
+
+	public void setRemoveState(RemoveState removeState) {
+		this.removeState = removeState;
 	}
 	
 	

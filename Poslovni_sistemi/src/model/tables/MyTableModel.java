@@ -6,21 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.JComponent;
 import javax.swing.table.DefaultTableModel;
 
 import database.DBConnection;
 
 public class MyTableModel extends DefaultTableModel{
-	
+
+	private static final long serialVersionUID = 4992228553348489370L;
+
 	private String basicQuery = "SELECT * FROM ";
-	private String orderBy = " ORDER BY dr_sifra";
-	private String whereStmt = "";
-	
+//	private String orderBy = " ORDER BY dr_sifra";
+//	private String whereStmt = "";
 	MyMenuItems item;
+	
 	public MyTableModel(MyMenuItems item){
 		
 		this.item = item;
@@ -37,7 +36,6 @@ public class MyTableModel extends DefaultTableModel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 	}
 	
@@ -64,7 +62,14 @@ public class MyTableModel extends DefaultTableModel{
 			row[i]= rset.getString(i+1);
 		}
 		this.addRow(row);
-		
+	}
+	
+	/**
+	 * Metoda koja onemogucuje direktno menjanje sadrzaja celijama.
+	 */
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return false;
 	}
 	
 	

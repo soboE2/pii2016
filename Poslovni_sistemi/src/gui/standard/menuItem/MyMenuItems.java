@@ -7,7 +7,9 @@ import javax.swing.JMenuItem;
 
 import model.tables.Column;
 public class MyMenuItems extends JMenuItem{
-	
+
+	private static final long serialVersionUID = 1736641489521800720L;
+
 	private String code;
 	private String name;
 	private ArrayList<Column> coluumns = new ArrayList<Column>();

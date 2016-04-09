@@ -16,7 +16,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
@@ -44,18 +43,14 @@ public class StandardForm extends JDialog{
 	private JToolBar toolBar;
 	private JButton btnAdd, btnCommit, btnDelete, btnFirst, btnLast, btnHelp, btnNext, btnNextForm,
 	btnPickup, btnRefresh, btnRollback, btnSearch, btnPrevious;
-	private JTextField tfSifra = new JTextField(5);
-	private JTextField tfNaziv = new JTextField(20);
 	private MainTable tblGrid = new MainTable(); 
 	private Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
 	private StateManager stateManager = new StateManager();
-	
 
 	public StandardForm(MyMenuItems item){
 		this.items = item;
 		setLayout(new MigLayout("fill"));
-
 		setSize(new Dimension(800, 600));
 		setTitle(item.getName());
 		setLocationRelativeTo(MainFrame.getInstance());
@@ -64,7 +59,6 @@ public class StandardForm extends JDialog{
 		initTable(item);
 		initGui(item);
 		tblGrid.getSelectionModel().addListSelectionListener(new RowSelectionListener(this));
-		
 	}
 	
 	private void initTable(MyMenuItems item){
@@ -76,7 +70,7 @@ public class StandardForm extends JDialog{
 		tblGrid.setRowSelectionAllowed(true);
 		tblGrid.setColumnSelectionAllowed(false);
 		tblGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+			
 	}
 	
 	
@@ -142,22 +136,30 @@ public class StandardForm extends JDialog{
 
 		ArrayList<Column> columns = item.getColuumns();
 		
+		int i= 0;
 		for(Column col:columns){
 			
 			JLabel lblSifra = new JLabel (col.getName()+ ":");
-			JTextField tFiel = new JTextField(10);		
+			JTextField tFiel = new JTextField(20);		
 			form.put(col, tFiel);
+			i++;
 			
-			dataPanel.add(lblSifra);
-			dataPanel.add(tFiel,"wrap");
-			
-			
+			if(columns.size()< 5){
+				dataPanel.add(lblSifra);
+				dataPanel.add(tFiel,"wrap");
+			}else{
+				if(i%3 == 0){
+					dataPanel.add(lblSifra);
+					dataPanel.add(tFiel);
+					dataPanel.add(new JLabel(),"wrap");
+				}else {
+					dataPanel.add(lblSifra);
+					dataPanel.add(tFiel);
+				}
+			}
 		}
-		
-		
+				
 		bottomPanel.add(dataPanel);
-
-
 		buttonsPanel.setLayout(new MigLayout("wrap"));
 		buttonsPanel.add(btnCommit);
 		buttonsPanel.add(btnRollback);
@@ -173,15 +175,23 @@ public class StandardForm extends JDialog{
 	public void setStateManager(StateManager stateManager) {
 		this.stateManager = stateManager;
 	}
+
 	public void fillForm(){
 		for(Column column : items.getColuumns()){
 			JTextField textF =((JTextField)form.get(column));
 			int row = tblGrid.getSelectedRow();
 			int col = items.getColuumns().indexOf(column);
 			textF.setText(tblGrid.getValueAt(row, col).toString());
-			
+			textF.setEditable(false);
 		}
-		
+	}
+	
+	public MainTable getFocusedTable() {
+		return tblGrid;
+	}
+
+	public void setTblGrid(MainTable tblGrid) {
+		this.tblGrid = tblGrid;
 	}
 	
 

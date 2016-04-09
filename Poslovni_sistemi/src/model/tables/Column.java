@@ -10,9 +10,6 @@ public class Column {
 	String name;
 	String code;
 
-	
-
-
 	public Column(String type, String name, String code) {
 		super();
 		this.type = type;
