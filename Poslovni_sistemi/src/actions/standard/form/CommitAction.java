@@ -36,6 +36,9 @@ public class CommitAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		
+		
 		MainTable table = standardForm.getFocusedTable();		
 		if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getRemoveState()){
 			if(table.getSelectedRow() == -1){
@@ -114,6 +117,8 @@ public class CommitAction extends AbstractAction {
 		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getSearchState()){
 			
 		}
+		
+		standardForm.getStateManager().changeToEditState();
 	}
 }
 

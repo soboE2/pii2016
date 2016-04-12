@@ -21,8 +21,6 @@ public class SearchAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SearchState searchState = new SearchState();
-		searchState.comit(standardForm);
-		
+		standardForm.getStateManager().changeToSearchState();
 	}
 }

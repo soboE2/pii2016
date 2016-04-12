@@ -1,5 +1,7 @@
 package forms.state;
 
+import gui.standard.form.StandardForm;
+
 public class StateManager {
 	
 	private State currentState;
@@ -8,15 +10,18 @@ public class StateManager {
 	private EditState editState;
 	private RemoveState removeState;
 	
-	public StateManager() {
+	private StandardForm form;
+	
+	public StateManager(StandardForm sf) {
 		
 		insertState = new InsertState();
 		editState = new EditState();
 		searchState = new SearchState();
 		removeState = new RemoveState();
-		
-		
+
 		currentState = editState;
+		
+		form = sf;
 	}
 
 	public State getCurrentState() {
@@ -57,6 +62,31 @@ public class StateManager {
 
 	public void setRemoveState(RemoveState removeState) {
 		this.removeState = removeState;
+	}
+	
+	public void changeToInsertState() {
+		currentState = insertState;
+		form.getActionManager().getDeleteAction().setEnabled(false);
+		form.getActionManager().getSearchAction().setEnabled(false);	
+	}
+	
+	public void changeToRemoveState() {
+		currentState = removeState;
+		form.getActionManager().getAddAction().setEnabled(false);
+		form.getActionManager().getSearchAction().setEnabled(false);	
+	}
+	
+	public void changeToSearchState() {
+		currentState = searchState;
+		form.getActionManager().getAddAction().setEnabled(false);
+		form.getActionManager().getDeleteAction().setEnabled(false);	
+	}
+	
+	public void changeToEditState() {
+		currentState = editState;
+		form.getActionManager().getAddAction().setEnabled(true);
+		form.getActionManager().getDeleteAction().setEnabled(true);
+		form.getActionManager().getSearchAction().setEnabled(true);
 	}
 	
 	

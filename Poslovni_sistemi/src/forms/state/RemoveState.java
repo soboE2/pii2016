@@ -15,15 +15,8 @@ public class RemoveState implements State {
 	private StandardForm standardForm;
 	
 	@Override
-	public void comit(StandardForm sf) {
-		this.standardForm = sf;
-		standardForm.getStateManager().setCurrentState(standardForm.getStateManager().getRemoveState());
-		standardForm.getFocusedTable().clearSelection();
-		for(Column column : standardForm.getItems().getColuumns()){
-			JTextField textF =((JTextField)standardForm.form.get(column));
-			textF.setText("");
-			textF.setEditable(false);
-		}
+	public void comit() {
+		
 	}
 
 }

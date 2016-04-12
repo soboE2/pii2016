@@ -27,7 +27,8 @@ public class RollbackAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		EditState editState = new EditState();
-		editState.comit(standardForm);
+		
+		standardForm.getStateManager().changeToEditState();
+		
 	}
 }

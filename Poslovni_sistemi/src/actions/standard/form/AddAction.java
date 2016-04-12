@@ -24,8 +24,6 @@ public class AddAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		InsertState insertState = new InsertState();
-		insertState.comit(standardForm);
-
+		standardForm.getStateManager().changeToInsertState();
 	}
 }

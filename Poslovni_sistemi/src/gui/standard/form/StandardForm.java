@@ -1,10 +1,5 @@
 package gui.standard.form;
 
-import forms.state.StateManager;
-import gui.main.form.MainFrame;
-import gui.standard.form.listeners.RowSelectionListener;
-import gui.standard.menuItem.MyMenuItems;
-
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 
-import model.tables.Column;
-import model.tables.MyTableModel;
-import net.miginfocom.swing.MigLayout;
+import actions.standard.form.ActionManager;
 import actions.standard.form.AddAction;
 import actions.standard.form.CommitAction;
 import actions.standard.form.DeleteAction;
@@ -35,7 +28,13 @@ import actions.standard.form.PickupAction;
 import actions.standard.form.PreviousAction;
 import actions.standard.form.RefreshAction;
 import actions.standard.form.RollbackAction;
-import actions.standard.form.SearchAction;
+import forms.state.StateManager;
+import gui.main.form.MainFrame;
+import gui.standard.form.listeners.RowSelectionListener;
+import gui.standard.menuItem.MyMenuItems;
+import model.tables.Column;
+import model.tables.MyTableModel;
+import net.miginfocom.swing.MigLayout;
 
 public class StandardForm extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +46,8 @@ public class StandardForm extends JDialog {
 	private MainTable tblGrid = new MainTable();
 	public Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
-	private StateManager stateManager = new StateManager();
+	private StateManager stateManager = new StateManager(this);
+	private ActionManager actionManager = new ActionManager(this);
 
 	public StandardForm(MyMenuItems item) {
 		this.items = item;
@@ -84,44 +84,56 @@ public class StandardForm extends JDialog {
 	private void initToolbar() {
 
 		toolBar = new JToolBar();
-		btnSearch = new JButton(new SearchAction(this));
-		toolBar.add(btnSearch);
+		
+		/*btnSearch = new JButton(new SearchAction(this));
+		toolBar.add(btnSearch);*/
+		toolBar.add(actionManager.getSearchAction());
 
-		btnRefresh = new JButton(new RefreshAction());
-		toolBar.add(btnRefresh);
+		/*btnRefresh = new JButton(new RefreshAction());
+		toolBar.add(btnRefresh);*/
+		toolBar.add(actionManager.getRefreshAction());
 
-		btnPickup = new JButton(new PickupAction(this));
-		toolBar.add(btnPickup);
+		/*btnPickup = new JButton(new PickupAction(this));
+		toolBar.add(btnPickup);*/
+		toolBar.add(actionManager.getPickupAction());
 
-		btnHelp = new JButton(new HelpAction());
-		toolBar.add(btnHelp);
-
-		toolBar.addSeparator();
-
-		btnFirst = new JButton(new FirstAction(this));
-		toolBar.add(btnFirst);
-
-		btnPrevious = new JButton(new PreviousAction(this));
-		toolBar.add(btnPrevious);
-
-		btnNext = new JButton(new NextAction(this));
-		toolBar.add(btnNext);
-
-		btnLast = new JButton(new LastAction(this));
-		toolBar.add(btnLast);
+		/*btnHelp = new JButton(new HelpAction());
+		toolBar.add(btnHelp);*/
+		toolBar.add(actionManager.getHelpAction());
 
 		toolBar.addSeparator();
 
-		btnAdd = new JButton(new AddAction(this));
-		toolBar.add(btnAdd);
+		/*btnFirst = new JButton(new FirstAction(this));
+		toolBar.add(btnFirst);*/
+		toolBar.add(actionManager.getFirstAction());
 
-		btnDelete = new JButton(new DeleteAction(this));
-		toolBar.add(btnDelete);
+		/*btnPrevious = new JButton(new PreviousAction(this));
+		toolBar.add(btnPrevious);*/
+		toolBar.add(actionManager.getPreviousAction());
+
+		/*btnNext = new JButton(new NextAction(this));
+		toolBar.add(btnNext);*/
+		toolBar.add(actionManager.getNextAction());
+
+		/*btnLast = new JButton(new LastAction(this));
+		toolBar.add(btnLast);*/
+		toolBar.add(actionManager.getLastAction());
 
 		toolBar.addSeparator();
 
-		btnNextForm = new JButton(new NextFormAction(this));
-		toolBar.add(btnNextForm);
+		/*btnAdd = new JButton(new AddAction(this));
+		toolBar.add(btnAdd);*/
+		toolBar.add(actionManager.getAddAction());
+
+		/*btnDelete = new JButton(new DeleteAction(this));
+		toolBar.add(btnDelete);*/
+		toolBar.add(actionManager.getDeleteAction());
+
+		toolBar.addSeparator();
+
+		/*btnNextForm = new JButton(new NextFormAction(this));
+		toolBar.add(btnNextForm);*/
+		toolBar.add(actionManager.getNextFormAction());
 
 		add(toolBar, "dock north");
 	}
@@ -205,5 +217,11 @@ public class StandardForm extends JDialog {
 	public void setTblGrid(MainTable tblGrid) {
 		this.tblGrid = tblGrid;
 	}
+
+	public ActionManager getActionManager() {
+		return actionManager;
+	}
+	
+	
 
 }
