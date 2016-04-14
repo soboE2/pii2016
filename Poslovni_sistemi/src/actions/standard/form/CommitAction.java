@@ -1,21 +1,21 @@
 package actions.standard.form;
 
 
-import gui.standard.form.MainTable;
+import forms.state.State;
+import gui.main.form.ErrorDialog;
 import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JComponent;
 
 import model.tables.Column;
-import database.DBConnection;
+import model.tables.MyTableModel;
 
 
 /**
@@ -37,88 +37,20 @@ public class CommitAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		
-		
-		MainTable table = standardForm.getFocusedTable();		
-		if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getRemoveState()){
-			if(table.getSelectedRow() == -1){
-				JOptionPane.showMessageDialog(standardForm, "Brisanje nije omoguceno!!!"+"\n"+"Potrebno je selektovati zeljeni red za brisanje");
-			}else{
-				String basicQuery = "DELETE FROM ";
-				basicQuery += standardForm.getItems().getCode() + " WHERE ";
-
-				
-				for(int i=0; i<table.getColumnCount(); i++){
-					Column col = standardForm.getItems().getColuumns().get(i);
-					if(i+1 == table.getColumnCount()){
-						basicQuery += col.getCode() +"= ?";
-					}else {
-						basicQuery += col.getCode() + "= ? AND ";
-					}
-				}
-				
-				basicQuery+=";";
-				//System.out.println(basicQuery);
-				
-				try {
-					PreparedStatement pstmt = DBConnection.getConnection().prepareStatement(basicQuery);
-					int tableRow = table.getSelectedRow();
-					
-					for(int i=0; i<table.getColumnCount(); i++){
-						pstmt.setString(i+1,(String)table.getValueAt(tableRow, i));
-					}
-					
-				
-				pstmt.execute();
-				pstmt.close();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getInsertState()){
-			
-			String insertQuery = "INSERT INTO ";
-			insertQuery += standardForm.getItems().getCode()+" (";
-			for(int i=0; i<table.getColumnCount(); i++){
-				Column col = standardForm.getItems().getColuumns().get(i);
-				if(i+1 == table.getColumnCount()){
-					insertQuery += col.getCode() +" )";
-				}else {
-					insertQuery += col.getCode() + " , ";
-				}
-			}
-			insertQuery += " VALUES (";
-			for(int i=0; i<table.getColumnCount(); i++){
-				Column col = standardForm.getItems().getColuumns().get(i);
-				JTextField textF =((JTextField)standardForm.form.get(col));
-				
-				if(i+1 == table.getColumnCount()){
-					insertQuery += "'"+ textF.getText() +"' );";
-				}else {
-					insertQuery += "'" + textF.getText().toUpperCase() + "' , ";
-				}
-			}
-			try {
-				Statement statement = DBConnection.getConnection().createStatement();
-				statement.executeUpdate(insertQuery);
-				statement.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-			//System.out.println(insertQuery);
-			
-		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getEditState()){
-			if(table.getSelectedRow() == -1){
-				JOptionPane.showMessageDialog(standardForm, "Modifikacija  nije moguca!!!"+"\n"+"Potrebno je selektovati zeljeni red za modifikovanje");
-			}else{
-
-			}
-		}else if(standardForm.getStateManager().getCurrentState()== standardForm.getStateManager().getSearchState()){
-			
+		State state = standardForm.getStateManager().getCurrentState();
+		ArrayList<Column> columns = standardForm.getItems().getColuumns();
+		String code = standardForm.getItems().getCode();
+		MyTableModel table = (MyTableModel) standardForm.getTblGrid().getModel();
+		Map<Column, JComponent> form = standardForm.getForm();
+		try {
+			state.comit(columns, code, form, table);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			ErrorDialog error = new ErrorDialog("Nemoguce upisati podatke " + e1.getMessage());
+			error.setVisible(true);
 		}
 		
-		standardForm.getStateManager().changeToEditState();
 	}
 }
 

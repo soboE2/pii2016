@@ -10,20 +10,19 @@ public class DBConnection {
 
 	private static Connection conn;
 
-	public static Connection getConnection() {
-		if (conn == null)
-			try {
+	public static Connection getConnection() throws Exception {
+		if (conn == null || conn.isClosed())
 				open();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+		
 		return conn;
 	}
 	
 
 	public static void open() throws ClassNotFoundException, SQLException {
-		if (conn != null)
-			return;
+		if (conn != null ){
+			if(!conn.isClosed())
+				return;
+		}
 		ResourceBundle bundle =
 				PropertyResourceBundle.getBundle("DBConnection"); //ime fajla
 		String driver = bundle.getString("driver"); //Ime parametara

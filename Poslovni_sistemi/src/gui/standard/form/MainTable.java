@@ -10,6 +10,7 @@ public class MainTable extends JTable{
 	public MainTable() {
 		super();
 		// TODO Auto-generated constructor stub	
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	

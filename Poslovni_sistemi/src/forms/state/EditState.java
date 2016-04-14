@@ -1,9 +1,14 @@
 package forms.state;
 
-import javax.swing.JTextField;
+import gui.standard.form.StandardForm;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import javax.swing.JComponent;
 
 import model.tables.Column;
-import gui.standard.form.StandardForm;
+import model.tables.MyTableModel;
 
 /**Implementacija state paterna zaduzena za modifikaciju sloga u tabelu.
  * {@link EditState} implementira {@link State}
@@ -13,10 +18,11 @@ import gui.standard.form.StandardForm;
 public class EditState implements State {
 
 	private StandardForm standardForm;
-	
+
 	@Override
-	public void comit() {
-		
-	}
+	public boolean comit(ArrayList<Column> columns, String code,
+			Map<Column, JComponent> form,MyTableModel table) { return true;}
+	
+	
 
 }

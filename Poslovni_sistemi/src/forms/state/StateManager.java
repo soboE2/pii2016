@@ -66,27 +66,27 @@ public class StateManager {
 	
 	public void changeToInsertState() {
 		currentState = insertState;
-		form.getActionManager().getDeleteAction().setEnabled(false);
-		form.getActionManager().getSearchAction().setEnabled(false);	
+		//form.getActionManager().getDeleteAction().setEnabled(false);
+		//form.getActionManager().getSearchAction().setEnabled(false);	
 	}
 	
 	public void changeToRemoveState() {
 		currentState = removeState;
-		form.getActionManager().getAddAction().setEnabled(false);
-		form.getActionManager().getSearchAction().setEnabled(false);	
+	//	form.getActionManager().getAddAction().setEnabled(false);
+		//form.getActionManager().getSearchAction().setEnabled(false);	
 	}
 	
 	public void changeToSearchState() {
 		currentState = searchState;
-		form.getActionManager().getAddAction().setEnabled(false);
-		form.getActionManager().getDeleteAction().setEnabled(false);	
+		//form.getActionManager().getAddAction().setEnabled(false);
+		//form.getActionManager().getDeleteAction().setEnabled(false);	
 	}
 	
 	public void changeToEditState() {
 		currentState = editState;
-		form.getActionManager().getAddAction().setEnabled(true);
-		form.getActionManager().getDeleteAction().setEnabled(true);
-		form.getActionManager().getSearchAction().setEnabled(true);
+	//	form.getActionManager().getAddAction().setEnabled(true);
+		//form.getActionManager().getDeleteAction().setEnabled(true);
+		//form.getActionManager().getSearchAction().setEnabled(true);
 	}
 	
 	

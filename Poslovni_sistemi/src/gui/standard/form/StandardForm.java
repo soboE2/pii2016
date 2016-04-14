@@ -61,13 +61,7 @@ public class StandardForm extends JDialog {
 		initGui(item);
 		tblGrid.getSelectionModel().addListSelectionListener(
 				new RowSelectionListener(this));
-	}
-	
-	public void ponovo(MyMenuItems item){
-		MyTableModel tableModel = new MyTableModel(item);
-		tableModel.fireTableDataChanged();
-		initTable(item);
-	}
+	}	
 
 	private void initTable(MyMenuItems item) {
 		JScrollPane scrollPane = new JScrollPane(tblGrid);
@@ -220,6 +214,26 @@ public class StandardForm extends JDialog {
 
 	public ActionManager getActionManager() {
 		return actionManager;
+	}
+
+	public JToolBar getToolBar() {
+		return toolBar;
+	}
+
+	public void setToolBar(JToolBar toolBar) {
+		this.toolBar = toolBar;
+	}
+
+	public MainTable getTblGrid() {
+		return tblGrid;
+	}
+
+	public Map<Column, JComponent> getForm() {
+		return form;
+	}
+
+	public void setForm(Map<Column, JComponent> form) {
+		this.form = form;
 	}
 	
 	

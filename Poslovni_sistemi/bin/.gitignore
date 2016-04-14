@@ -1,5 +1,8 @@
-/DBConnection.properties
-/forms/
 /actions/
-/gui/
 /app/
+/database/
+/forms/
+/gui/
+/model/
+/org/
+/utils/

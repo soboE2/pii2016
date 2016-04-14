@@ -1,9 +1,16 @@
 package forms.state;
 
-import gui.standard.form.StandardForm;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import javax.swing.JComponent;
+
+import model.tables.Column;
+import model.tables.MyTableModel;
 
 public interface State {
 	
-	void comit();
+	boolean comit(ArrayList<Column> columns,String code,Map<Column,JComponent> form,MyTableModel table) throws Exception ;
 	
 }

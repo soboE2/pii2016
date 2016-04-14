@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
+import utils.SortUtils;
 import database.DBConnection;
 
 public class MyTableModel extends DefaultTableModel{
@@ -28,22 +29,30 @@ public class MyTableModel extends DefaultTableModel{
 		for(Column col : columns)
 			this.addColumn(col.getName());
 		basicQuery += item.getCode();
-		this.setRowCount(0);
+		try {
+			fillData(basicQuery);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		
+	}
+	
+	public void reload() throws Exception{
 		try {
 			fillData(basicQuery);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-	
-	private void fillData(String sql) throws SQLException {
+	private void fillData(String sql) throws Exception {
 
 		Statement stmt = DBConnection.getConnection().createStatement();
 		ResultSet rset = stmt.executeQuery(sql);
-
+		this.setRowCount(0);
+		
 		while (rset.next()) {
 			addRow(rset);
 		}
@@ -71,6 +80,31 @@ public class MyTableModel extends DefaultTableModel{
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
-	
+	private int sortedInsert(String sifra, String naziv) {
+
+		int left = 0;
+		int right = getRowCount() - 1;
+		int mid = (left + right) / 2;
+
+		while (left <= right ) {
+
+			mid = (left + right) / 2;
+			String aSifra = (String)getValueAt(mid, 0);
+			if (SortUtils.getLatCyrCollator().compare(sifra, aSifra) > 0)
+				left = mid + 1;
+			else if (SortUtils.getLatCyrCollator().compare(sifra, aSifra) < 0)
+				right = mid - 1;
+			else
+				// ako su jednaki: to ne moze da se desi ako tabela ima primarni
+			break;
+
+		}
+
+		insertRow(left, new String[] {sifra, naziv});
+		return left;
+
+	}
+
+		
 	
 }
