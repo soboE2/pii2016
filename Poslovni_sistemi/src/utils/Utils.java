@@ -69,10 +69,16 @@ public class Utils {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
 	//srediti za datum
 	public static void setPreparedForSearch(PreparedStatement pstmt,String type,JComponent inputValue,int i){
 		 //dodati za boolean jos
-		 if( type.equals("tinyint") || type.equals("smallint") || type.equals("int") ||type.equals("java.math.BigInteger")){
+		 if( type.equals("tinyint") || type.equals("smallint") || type.equals("int") ){
 			
 				try {
 					if(((JTextField) inputValue).getText().length()>0)
@@ -124,8 +130,5 @@ public class Utils {
 
 			}
 	}
-	
-	
-	
 	
 }
