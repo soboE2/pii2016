@@ -20,10 +20,10 @@ public class RemoveState implements State {
 	private StandardForm standardForm;
 
 	@Override
-	public boolean comit(ArrayList<Column> columns, String code,
+	public void comit(ArrayList<Column> columns, String code,
 			Map<Column, JComponent> form,MyTableModel table) {
 		// TODO Auto-generated method stub
-		return true;
+		
 	}
 	@Override
 	public String toString() {

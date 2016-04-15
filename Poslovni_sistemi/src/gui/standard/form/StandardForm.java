@@ -1,6 +1,15 @@
 package gui.standard.form;
 
+import forms.state.StateManager;
+import gui.main.form.MainFrame;
+import gui.standard.form.listeners.RowSelectionListener;
+import gui.standard.form.listeners.ZoomButtonListener;
+import gui.standard.menuItem.MyMenuItems;
+
 import java.awt.Dimension;
+import java.awt.MenuItem;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,26 +24,12 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 
-import actions.standard.form.ActionManager;
-import actions.standard.form.AddAction;
-import actions.standard.form.CommitAction;
-import actions.standard.form.DeleteAction;
-import actions.standard.form.FirstAction;
-import actions.standard.form.HelpAction;
-import actions.standard.form.LastAction;
-import actions.standard.form.NextAction;
-import actions.standard.form.NextFormAction;
-import actions.standard.form.PickupAction;
-import actions.standard.form.PreviousAction;
-import actions.standard.form.RefreshAction;
-import actions.standard.form.RollbackAction;
-import forms.state.StateManager;
-import gui.main.form.MainFrame;
-import gui.standard.form.listeners.RowSelectionListener;
-import gui.standard.menuItem.MyMenuItems;
 import model.tables.Column;
 import model.tables.MyTableModel;
 import net.miginfocom.swing.MigLayout;
+import actions.standard.form.ActionManager;
+import actions.standard.form.CommitAction;
+import actions.standard.form.RollbackAction;
 
 public class StandardForm extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -152,22 +147,39 @@ public class StandardForm extends JDialog {
 
 			JLabel lblSifra = new JLabel(col.getName() + ":");
 			JTextField tFiel = new JTextField(20);
+			JButton button = new JButton("...");
+			if(col.isFk())
+				button.addActionListener(new ZoomButtonListener(col.getFkTableCode()));
 			form.put(col, tFiel);
 			i++;
 
 			if (columns.size() < 5) {
 				dataPanel.add(lblSifra);
-				dataPanel.add(tFiel, "wrap");
+				
+				if(col.isFk()){
+					dataPanel.add(tFiel);
+					dataPanel.add(button,"wrap");
+				}else
+					dataPanel.add(tFiel, "wrap");
+				
+				
 			} else {
 				if (i % 3 == 0) {
 					dataPanel.add(lblSifra);
 					dataPanel.add(tFiel);
+					if(col.isFk())
+						dataPanel.add(button);
 					dataPanel.add(new JLabel(), "wrap");
 				} else {
 					dataPanel.add(lblSifra);
 					dataPanel.add(tFiel);
+					if(col.isFk())
+						dataPanel.add(button);
+					
 				}
 			}
+			
+			
 		}
 
 		bottomPanel.add(dataPanel);
@@ -190,8 +202,7 @@ public class StandardForm extends JDialog {
 	}
 
 	public void fillForm() {
-		if (stateManager.getCurrentState() == stateManager.getEditState()
-				|| stateManager.getCurrentState() == stateManager.getRemoveState()){
+		if (stateManager.getCurrentState() == stateManager.getEditState()){
 				for (Column column : items.getColuumns()) {
 					JTextField textF = ((JTextField) form.get(column));
 					int row = tblGrid.getSelectedRow();
@@ -248,6 +259,8 @@ public class StandardForm extends JDialog {
 	public void setStatus(StatusBar status) {
 		this.status = status;
 	}
+	
+	
 	
 	
 

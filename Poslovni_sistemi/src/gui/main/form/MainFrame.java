@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -25,6 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import rs.mgifos.mosquito.IMetaLoader;
+import rs.mgifos.mosquito.LoadingException;
+import rs.mgifos.mosquito.impl.pdm.PDMetaLoader;
+import rs.mgifos.mosquito.model.MetaColumn;
+import rs.mgifos.mosquito.model.MetaModel;
+import rs.mgifos.mosquito.model.MetaTable;
 import actions.main.form.ShowDialog;
 import database.DBConnection;
 
@@ -33,7 +41,7 @@ public class MainFrame extends JFrame{
 	
 	public static MainFrame instance;
 	private JMenuBar menuBar;
-
+	private JMenu orgSema;
 	private MainFrame(){}
 	
 	public void init(){
@@ -44,8 +52,8 @@ public class MainFrame extends JFrame{
 		setTitle("Poslovna");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	//	setExtendedState(MAXIMIZED_BOTH);
-		setUpMenu();
-
+	//setUpMenu();
+		setUpMenuPDM();
 		addWindowListener(new WindowAdapter() {
 			@Override
 						
@@ -69,7 +77,8 @@ public class MainFrame extends JFrame{
 	}
 
 	private void setUpMenu(){
-		
+		setUpMenuPDM();
+		/*
 		menuBar = new JMenuBar();
 		JMenu orgSemaMenu = new JMenu("Organizaciona šema");
 		orgSemaMenu.setMnemonic(KeyEvent.VK_O);
@@ -109,6 +118,58 @@ public class MainFrame extends JFrame{
 		}
 		
 		menuBar.add(orgSemaMenu);
+		*/
+	}
+	
+	public void setUpMenuPDM(){
+		
+		IMetaLoader metaLoader = new PDMetaLoader();
+
+		Properties properties = new Properties();
+		properties.put(PDMetaLoader.FILENAME, "src/resources/Banka.pdm");
+		menuBar = new JMenuBar();
+		JMenu orgSemaMenu = new JMenu("Organizaciona šema");
+		orgSemaMenu.setMnemonic(KeyEvent.VK_O);
+		
+
+		try {
+			MetaModel model = metaLoader.getMetaModel(properties);
+	
+			for (MetaTable table : model) {
+				ArrayList<Column> col = new ArrayList<Column>();
+			    
+			    String codeT = table.getCode();
+			    String nameT = nameGenarator(codeT);
+			    Iterator<Object> colIter = table.cColumns().iterator();
+			    
+			    while(colIter.hasNext()){
+			    	MetaColumn column = (MetaColumn)colIter.next();
+			    	String type = column.getJClassName();
+			    	String code = column.getCode();
+			    	String name = column.getName();
+			    	Column absCol= null;
+			    	if(column.getFkColParent() != null)
+			    		absCol= new Column(type, name, code,column.isPartOfPK(), column.isPartOfFK(),column.isMandatory(),column.getFkColParent().getParentTable());
+			    	else
+			    		absCol= new Column(type, name, code,column.isPartOfPK(), column.isPartOfFK(),column.isMandatory(),null);
+
+			    	col.add(absCol);
+			    }
+		    
+				MyMenuItems item = new MyMenuItems(codeT, nameT, col,new ShowDialog(nameT));
+				orgSemaMenu.add(item);
+	    
+			}
+			
+			
+			menuBar.add(orgSemaMenu);
+			this.orgSema = orgSemaMenu;
+			
+			
+		} catch (LoadingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -121,5 +182,26 @@ public class MainFrame extends JFrame{
 		return instance;
 
 	}
-
+	public MyMenuItems getItem(String code){
+		for (int i = 0; i < orgSema.getItemCount(); i++) {
+			MyMenuItems item = (MyMenuItems) orgSema.getItem(i);
+			if(item.getCode().equals(code)){
+				return item;
+			}
+		}
+		
+		return null;
+	}
+	private String nameGenarator(String name){
+		
+		String[] result = name.split("_");
+		String returnS = result[0].substring(0,1).toUpperCase() + result[0].substring(1).toLowerCase();
+		for(int x = 1; x<result.length; x++){			
+			returnS +=  " " + result[x].toLowerCase();			
+		}
+		return returnS;
+	}
+	
+	
+	
 }

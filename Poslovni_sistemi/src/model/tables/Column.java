@@ -9,12 +9,22 @@ public class Column {
 	String type;
 	String name;
 	String code;
+	String fkTableCode;
+	boolean isPk;
+	boolean isFk;
+	boolean isMandatory;
 
-	public Column(String type, String name, String code) {
+	
+	public Column(String type, String name, String code, boolean isPk,
+			boolean isFk,boolean isMandatory,String fkTableCode) {
 		super();
 		this.type = type;
 		this.name = name;
 		this.code = code;
+		this.isPk = isPk;
+		this.isFk = isFk;
+		this.isMandatory = isMandatory;
+		this.fkTableCode = fkTableCode;
 	}
 	public String getType() {
 		return type;
@@ -27,6 +37,30 @@ public class Column {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getFkTableCode() {
+		return fkTableCode;
+	}
+	public void setFkTableCode(String fkTableCode) {
+		this.fkTableCode = fkTableCode;
+	}
+	public boolean isPk() {
+		return isPk;
+	}
+	public void setPk(boolean isPk) {
+		this.isPk = isPk;
+	}
+	public boolean isFk() {
+		return isFk;
+	}
+	public void setFk(boolean isFk) {
+		this.isFk = isFk;
+	}
+	public boolean isMandatory() {
+		return isMandatory;
+	}
+	public void setMandatory(boolean isMandatory) {
+		this.isMandatory = isMandatory;
 	}
 	public String getCode() {
 		return code;
