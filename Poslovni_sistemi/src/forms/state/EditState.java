@@ -20,8 +20,10 @@ public class EditState implements State {
 	private StandardForm standardForm;
 
 	@Override
-	public boolean comit(ArrayList<Column> columns, String code,
-			Map<Column, JComponent> form,MyTableModel table) { return true;}
+	public void comit(ArrayList<Column> columns, String code,
+			Map<Column, JComponent> form,MyTableModel table) {
+		
+	}
 
 	@Override
 	public String toString() {

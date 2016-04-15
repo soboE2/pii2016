@@ -104,6 +104,22 @@ public class MyTableModel extends DefaultTableModel{
 		return left;
 
 	}
+	
+	public void loadSearchResults(ResultSet rs) {
+		this.setRowCount(0);
+		try {
+			while(rs.next()) {
+				addRow(rs);
+			}
+			//rs.close();
+			fireTableDataChanged();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 
 		
 	

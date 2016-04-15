@@ -24,7 +24,7 @@ public class InsertState implements State {
 
 
 	@Override
-	public boolean comit(ArrayList<Column> columns, String code,
+	public void comit(ArrayList<Column> columns, String code,
 			Map<Column, JComponent> form,MyTableModel table) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -53,7 +53,6 @@ public class InsertState implements State {
 				pstmt.execute();
 				DBConnection.getConnection().commit();
 				table.reload();
-				return true;
 			} catch (Exception e) {
 				// TODO Auto-generated catch bloc
 				DBConnection.getConnection().rollback();
