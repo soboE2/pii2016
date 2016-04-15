@@ -190,8 +190,7 @@ public class StandardForm extends JDialog {
 	}
 
 	public void fillForm() {
-		if (stateManager.getCurrentState() == stateManager.getEditState()
-				|| stateManager.getCurrentState() == stateManager.getRemoveState()){
+		if (stateManager.getCurrentState() == stateManager.getEditState()){
 				for (Column column : items.getColuumns()) {
 					JTextField textF = ((JTextField) form.get(column));
 					int row = tblGrid.getSelectedRow();
