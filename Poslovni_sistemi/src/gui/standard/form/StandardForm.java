@@ -48,6 +48,7 @@ public class StandardForm extends JDialog {
 	MyMenuItems items;
 	private StateManager stateManager = new StateManager(this);
 	private ActionManager actionManager = new ActionManager(this);
+	private StatusBar status;
 
 	public StandardForm(MyMenuItems item) {
 		this.items = item;
@@ -61,6 +62,7 @@ public class StandardForm extends JDialog {
 		initGui(item);
 		tblGrid.getSelectionModel().addListSelectionListener(
 				new RowSelectionListener(this));
+		
 	}	
 
 	private void initTable(MyMenuItems item) {
@@ -175,6 +177,8 @@ public class StandardForm extends JDialog {
 		bottomPanel.add(buttonsPanel, "dock east");
 
 		add(bottomPanel, "grow, wrap");
+		status = new StatusBar(getStateManager().getCurrent());
+		add(status,"dock south");
 	}
 
 	public StateManager getStateManager() {
@@ -187,13 +191,14 @@ public class StandardForm extends JDialog {
 
 	public void fillForm() {
 		if (stateManager.getCurrentState() == stateManager.getEditState()
-				|| stateManager.getCurrentState() == stateManager.getRemoveState())
-			for (Column column : items.getColuumns()) {
-				JTextField textF = ((JTextField) form.get(column));
-				int row = tblGrid.getSelectedRow();
-				int col = items.getColuumns().indexOf(column);
-				textF.setText(tblGrid.getValueAt(row, col).toString());
-			}
+				|| stateManager.getCurrentState() == stateManager.getRemoveState()){
+				for (Column column : items.getColuumns()) {
+					JTextField textF = ((JTextField) form.get(column));
+					int row = tblGrid.getSelectedRow();
+					int col = items.getColuumns().indexOf(column);
+					textF.setText(tblGrid.getValueAt(row, col).toString());
+				}
+		}
 	}
 
 	public MyMenuItems getItems() {
@@ -234,6 +239,14 @@ public class StandardForm extends JDialog {
 
 	public void setForm(Map<Column, JComponent> form) {
 		this.form = form;
+	}
+
+	public StatusBar getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusBar status) {
+		this.status = status;
 	}
 	
 	

@@ -22,7 +22,6 @@ import database.DBConnection;
 
 public class InsertState implements State {
 
-	private StandardForm standardForm;
 
 	@Override
 	public boolean comit(ArrayList<Column> columns, String code,
@@ -66,18 +65,15 @@ public class InsertState implements State {
 					e.printStackTrace();
 				}
 			}
-		
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
+			
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "dodavanje";
+	}
+	
 	
 
 }

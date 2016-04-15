@@ -25,5 +25,10 @@ public class SearchState implements State {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "pretraga";
+	}
+	
 }

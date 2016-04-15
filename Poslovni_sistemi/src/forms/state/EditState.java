@@ -22,6 +22,12 @@ public class EditState implements State {
 	@Override
 	public boolean comit(ArrayList<Column> columns, String code,
 			Map<Column, JComponent> form,MyTableModel table) { return true;}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "izmena";
+	}
 	
 	
 

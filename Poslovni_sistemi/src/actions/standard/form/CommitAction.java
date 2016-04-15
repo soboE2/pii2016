@@ -43,7 +43,9 @@ public class CommitAction extends AbstractAction {
 		MyTableModel table = (MyTableModel) standardForm.getTblGrid().getModel();
 		Map<Column, JComponent> form = standardForm.getForm();
 		try {
-			state.comit(columns, code, form, table);
+			
+			 state.comit(columns, code, form, table);
+			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
