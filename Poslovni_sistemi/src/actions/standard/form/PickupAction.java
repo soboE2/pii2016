@@ -4,6 +4,7 @@ import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -27,21 +28,24 @@ public class PickupAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		parent = standardForm.getParentForm();
-		for (Column column1 : parent.getItems().getColuumns()) {
-			if (column1.isFk()) {
-				JTextField textF1 = ((JTextField) parent.form.get(column1));
-				for (Column column : standardForm.getItems().getColuumns()) {
-					if (column.isPk()) {
-						JTextField textF = ((JTextField) standardForm.form
-								.get(column));
-						textF1.setText(textF.getText());
+		if (parent != null) {
+			for (Column column1 : parent.getItems().getColuumns()) {
+				if (column1.isFk()) {
+					JTextField textF1 = ((JTextField) parent.form.get(column1));
+					for (Column column : standardForm.getItems().getColuumns()) {
+						if (column.isPk()
+								&& column.getCode().equals(column1.getCode())) {
+							JTextField textF = ((JTextField) standardForm.form
+									.get(column));
+							textF1.setText(textF.getText());
 
+						}
 					}
-				}
 
+				}
 			}
+			standardForm.dispose();
+			standardForm.setVisible(false);
 		}
-		standardForm.dispose();
-		standardForm.setVisible(false);
 	}
 }
