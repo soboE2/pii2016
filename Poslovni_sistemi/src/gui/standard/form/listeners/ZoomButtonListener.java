@@ -11,10 +11,12 @@ public class ZoomButtonListener implements ActionListener{
 	
 	
 	String itemS;
+	StandardForm standardForm;
 	
-	public ZoomButtonListener(String itemS) {
+	public ZoomButtonListener(StandardForm form,String itemS) {
 		super();
 		this.itemS = itemS;
+		this.standardForm=form;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,7 +24,7 @@ public class ZoomButtonListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		MyMenuItems item = MainFrame.getInstance().getItem(itemS);
-		StandardForm form = new StandardForm(item);
+		StandardForm form = new StandardForm(standardForm,item);
 		form.setVisible(true);
 	}
 

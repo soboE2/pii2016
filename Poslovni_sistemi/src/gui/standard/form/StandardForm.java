@@ -47,6 +47,7 @@ public class StandardForm extends JDialog {
 	private ActionManager actionManager = new ActionManager(this);
 	private StatusBar status;
 	private MyTableModel model;
+	private StandardForm parentForm;
 
 	/**Konstreuktor
 	 * @param item Tabela za koju se kreira standardna forma
@@ -63,8 +64,24 @@ public class StandardForm extends JDialog {
 		initGui(item);
 		tblGrid.getSelectionModel().addListSelectionListener(
 				new RowSelectionListener(this));
-
 	}
+	
+	public StandardForm(StandardForm form,MyMenuItems item) {
+		this.items = item;
+		setLayout(new MigLayout("fill"));
+		setSize(new Dimension(800, 600));
+		setTitle(item.getName());
+		setLocationRelativeTo(MainFrame.getInstance());
+		setModal(true);
+		initToolbar();
+		initTable(item);
+		initGui(item);
+		tblGrid.getSelectionModel().addListSelectionListener(
+				new RowSelectionListener(this));
+		this.parentForm = form;
+	}
+	
+
 
 	/**Inicijalizacija tabele
 	 * @param item Tabela za koju se kreira standardna forma
@@ -217,7 +234,7 @@ public class StandardForm extends JDialog {
 			JTextField tFiel = new JTextField(20);
 			JButton button = new JButton("...");
 			if (col.isFk())
-				button.addActionListener(new ZoomButtonListener(col
+				button.addActionListener(new ZoomButtonListener(this,col
 						.getFkTableCode()));
 			form.put(col, tFiel);
 			if (columns.size() < 5) {
@@ -329,6 +346,10 @@ public class StandardForm extends JDialog {
 
 	public MyTableModel getModel() {
 		return model;
+	}
+	
+	public StandardForm getParentForm() {
+		return parentForm;
 	}
 
 }
