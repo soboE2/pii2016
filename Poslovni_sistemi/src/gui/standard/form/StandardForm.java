@@ -37,9 +37,9 @@ public class StandardForm extends JDialog {
 
 	private JToolBar toolBar;
 	private JButton btnRollback, btnCommit;
-//		, btnDelete, btnFirst, btnLast, btnHelp,
-//			btnNext, btnNextForm, btnPickup, btnRefresh,
-//			btnSearch, btnPrevious;
+	// , btnDelete, btnFirst, btnLast, btnHelp,
+	// btnNext, btnNextForm, btnPickup, btnRefresh,
+	// btnSearch, btnPrevious;
 	private MainTable tblGrid = new MainTable();
 	public Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
@@ -49,8 +49,11 @@ public class StandardForm extends JDialog {
 	private MyTableModel model;
 	private StandardForm parentForm;
 
-	/**Konstreuktor
-	 * @param item Tabela za koju se kreira standardna forma
+	/**
+	 * Konstreuktor
+	 * 
+	 * @param item
+	 *            Tabela za koju se kreira standardna forma
 	 */
 	public StandardForm(MyMenuItems item) {
 		this.items = item;
@@ -65,8 +68,8 @@ public class StandardForm extends JDialog {
 		tblGrid.getSelectionModel().addListSelectionListener(
 				new RowSelectionListener(this));
 	}
-	
-	public StandardForm(StandardForm form,MyMenuItems item) {
+
+	public StandardForm(StandardForm form, MyMenuItems item) {
 		this.items = item;
 		setLayout(new MigLayout("fill"));
 		setSize(new Dimension(800, 600));
@@ -80,11 +83,12 @@ public class StandardForm extends JDialog {
 				new RowSelectionListener(this));
 		this.parentForm = form;
 	}
-	
 
-
-	/**Inicijalizacija tabele
-	 * @param item Tabela za koju se kreira standardna forma
+	/**
+	 * Inicijalizacija tabele
+	 * 
+	 * @param item
+	 *            Tabela za koju se kreira standardna forma
 	 */
 	private void initTable(MyMenuItems item) {
 		JScrollPane scrollPane = new JScrollPane(tblGrid);
@@ -98,8 +102,11 @@ public class StandardForm extends JDialog {
 		refreshButton();
 	}
 
-	/**Metoda koja na osnovu broja redova u tabeli,vrsi ukljucivanje ili iskljucivanje akcija
-	 * namenjenih za kretanje kroz tabelu {@link NextAction}, {@link PreviousAction}, {@link FirstAction}}, {@link LastAction}}
+	/**
+	 * Metoda koja na osnovu broja redova u tabeli,vrsi ukljucivanje ili
+	 * iskljucivanje akcija namenjenih za kretanje kroz tabelu
+	 * {@link NextAction}, {@link PreviousAction}, {@link FirstAction} ,
+	 * {@link LastAction}
 	 */
 	public void refreshButton() {
 		if (tblGrid.getRowCount() == 0) {
@@ -115,7 +122,8 @@ public class StandardForm extends JDialog {
 		}
 	}
 
-	/** Ponistavanje teksutalnih polja 
+	/**
+	 * Ponistavanje teksutalnih polja
 	 */
 	public void restartField() {
 		for (Column col : items.getColuumns()) {
@@ -125,7 +133,6 @@ public class StandardForm extends JDialog {
 		tblGrid.clearSelection();
 	}
 
-	
 	/**
 	 * Inicijalizacija tolbara standardne forme
 	 */
@@ -203,9 +210,11 @@ public class StandardForm extends JDialog {
 		add(toolBar, "dock north");
 	}
 
-	
-	/**Inicijalizacija gui
-	 * @param item Tabela za koju se kreira standardna forma
+	/**
+	 * Inicijalizacija gui
+	 * 
+	 * @param item
+	 *            Tabela za koju se kreira standardna forma
 	 */
 	private void initGui(MyMenuItems item) {
 
@@ -220,9 +229,7 @@ public class StandardForm extends JDialog {
 
 		ArrayList<Column> columns = item.getColuumns();
 
-
-		
-		for(int i=0; i<columns.size(); i++){
+		for (int i = 0; i < columns.size(); i++) {
 			Column col = columns.get(i);
 			JLabel lblSifra;
 			if (col.isMandatory() || col.isFk() || col.isPk()) {
@@ -230,11 +237,11 @@ public class StandardForm extends JDialog {
 			} else {
 				lblSifra = new JLabel(col.getName() + ":");
 			}
-			
+
 			JTextField tFiel = new JTextField(20);
 			JButton button = new JButton("...");
 			if (col.isFk())
-				button.addActionListener(new ZoomButtonListener(this,col
+				button.addActionListener(new ZoomButtonListener(this, col
 						.getFkTableCode()));
 			form.put(col, tFiel);
 			if (columns.size() < 5) {
@@ -273,11 +280,9 @@ public class StandardForm extends JDialog {
 		add(status, "dock south");
 	}
 
-
-
 	public void fillForm() {
 		if (stateManager.getCurrentState() == stateManager.getEditState()) {
-			for (Column column : items.getColuumns()) {
+		for (Column column : items.getColuumns()) {
 				JTextField textF = ((JTextField) form.get(column));
 				int row = tblGrid.getSelectedRow();
 				int col = items.getColuumns().indexOf(column);
@@ -286,7 +291,6 @@ public class StandardForm extends JDialog {
 		}
 	}
 
-	
 	public StateManager getStateManager() {
 		return stateManager;
 	}
@@ -294,8 +298,7 @@ public class StandardForm extends JDialog {
 	public void setStateManager(StateManager stateManager) {
 		this.stateManager = stateManager;
 	}
-	
-	
+
 	public MyMenuItems getItems() {
 		return items;
 	}
@@ -347,7 +350,7 @@ public class StandardForm extends JDialog {
 	public MyTableModel getModel() {
 		return model;
 	}
-	
+
 	public StandardForm getParentForm() {
 		return parentForm;
 	}

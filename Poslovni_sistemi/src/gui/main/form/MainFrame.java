@@ -7,11 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
@@ -19,14 +15,10 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import model.tables.Column;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import rs.mgifos.mosquito.IMetaLoader;
 import rs.mgifos.mosquito.LoadingException;
 import rs.mgifos.mosquito.impl.pdm.PDMetaLoader;
@@ -36,6 +28,12 @@ import rs.mgifos.mosquito.model.MetaTable;
 import actions.main.form.ShowDialog;
 import database.DBConnection;
 
+/**Predstavlja pogled na glavni frejm aplikacije, i realizovana je preko Singleton sablona.
+ * Nasledjuje {@link JFrame} klasu. Sadrzi {@link JMenuBar}, {@link JMenuItem}, {@link JMenu}.
+ * @author Nemanja Sobo
+ * @author Nenad Rad
+ * @author Borko Arsovic
+ */
 public class MainFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
@@ -76,50 +74,6 @@ public class MainFrame extends JFrame{
 
 	}
 
-	private void setUpMenu(){
-		setUpMenuPDM();
-		/*
-		menuBar = new JMenuBar();
-		JMenu orgSemaMenu = new JMenu("Organizaciona šema");
-		orgSemaMenu.setMnemonic(KeyEvent.VK_O);
-	
-		BufferedReader bf = null;
-		
-		try {
-			bf  =  new BufferedReader(new InputStreamReader(
-			    new FileInputStream("tables.json"), "UTF-8"));
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		JSONTokener tokener = new JSONTokener(bf);
-		JSONObject obj = new JSONObject(tokener);
-		JSONArray tables = obj.getJSONArray("tabele");
-		
-		for(int i = 0; i<tables.length(); i++){
-			JSONArray columns =((JSONObject)tables.get(i)).getJSONArray("columns");
-			String codeT = ((JSONObject)tables.get(i)).getString("code");
-			String nameT = ((JSONObject)tables.get(i)).getString("tableName");
-			ArrayList<Column> col = new ArrayList<Column>();
-			
-			for(int j = 0; j<columns.length(); j++){
-				String code = ((JSONObject)columns.get(j)).getString("code");
-				String name = ((JSONObject)columns.get(j)).getString("name");
-				String type = ((JSONObject)columns.get(j)).getString("type");
-				Column column = new Column(type,name,code);
-				col.add(column);
-			}
-			MyMenuItems item = new MyMenuItems(codeT, nameT, col,new ShowDialog(nameT));
-			orgSemaMenu.add(item);
-		}
-		
-		menuBar.add(orgSemaMenu);
-		*/
-	}
 	
 	public void setUpMenuPDM(){
 		
@@ -140,7 +94,8 @@ public class MainFrame extends JFrame{
 			    
 			    String codeT = table.getCode();
 			    String nameT = nameGenarator(codeT);
-			    Iterator<Object> colIter = table.cColumns().iterator();
+			    @SuppressWarnings("unchecked")
+				Iterator<Object> colIter = table.cColumns().iterator();
 			    
 			    while(colIter.hasNext()){
 			    	MetaColumn column = (MetaColumn)colIter.next();
@@ -189,9 +144,9 @@ public class MainFrame extends JFrame{
 				return item;
 			}
 		}
-		
 		return null;
 	}
+	
 	private String nameGenarator(String name){
 		
 		String[] result = name.split("_");
@@ -202,6 +157,27 @@ public class MainFrame extends JFrame{
 		return returnS;
 	}
 	
-	
+	public void showSqlExceptionError(SQLException e){
+		ErrorDialog error = null; 
+		switch (e.getErrorCode()) {
+		case 0:
+			error = new ErrorDialog("Poruka o greski:"
+					+ ("SQLConnectionError"));
+			break;
+		case 547:
+			error = new ErrorDialog("Poruka o greski:"
+					+("SQLReferenceError"));
+			break;
+		case 2627:
+			error = new ErrorDialog("Poruka o greski:"
+					+ ("SQLDuplicatePrimaryKeyError"));
+			break;
+		default:
+			error = new ErrorDialog("Poruka o greski:"
+					+("SQLGeneralError"));
+		}
+		
+		error.setVisible(true);
+	}
 	
 }

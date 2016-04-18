@@ -1,20 +1,21 @@
 package actions.standard.form;
 
-import gui.main.form.ErrorDialog;
+import gui.main.form.MainFrame;
 import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-import utils.Utils;
-import database.DBConnection;
 import model.tables.Column;
 import model.tables.MyTableModel;
+import utils.Utils;
+import database.DBConnection;
 
 public class DeleteAction extends AbstractAction {
 
@@ -71,13 +72,11 @@ public class DeleteAction extends AbstractAction {
 			table.reload();
 			standardForm.refreshButton();
 			standardForm.restartField();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			ErrorDialog error = new ErrorDialog("Nemoguce izbrisati podatke "
-					+ e1.getMessage());
-			error.setVisible(true);
+		} catch (SQLException e1) {
+			MainFrame.getInstance().showSqlExceptionError(e1);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		// System.out.println(deleteSQL);
 	}
 }

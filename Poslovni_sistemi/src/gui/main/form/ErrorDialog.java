@@ -17,8 +17,9 @@ import javax.swing.JPanel;
  *
  */
 public class ErrorDialog extends JDialog {
+	private static final long serialVersionUID = -2440714066264301812L;
 	
-	private String message;
+	    String message;
 
 	public ErrorDialog(String message) {
 		
@@ -26,7 +27,7 @@ public class ErrorDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 		setSize(new Dimension(300,150));
-		
+		setTitle("Greska");
 		this.message = message;
 		JLabel label = new JLabel(message);
 		label.setHorizontalAlignment(JLabel.CENTER);

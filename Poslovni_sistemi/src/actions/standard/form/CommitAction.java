@@ -5,7 +5,6 @@ import gui.main.form.ErrorDialog;
 import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -49,6 +48,15 @@ public class CommitAction extends AbstractAction {
 				standardForm.restartField();
 				standardForm.refreshButton();
 
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				ErrorDialog error = new ErrorDialog("Nemoguce upisati podatke "
+						+ e1.getMessage());
+				error.setVisible(true);
+			}
+		}else if(state == standardForm.getStateManager().getEditState()){
+			try {
+				state.comit(columns, code, form, table);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				ErrorDialog error = new ErrorDialog("Nemoguce upisati podatke "

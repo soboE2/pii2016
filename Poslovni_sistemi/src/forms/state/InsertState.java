@@ -1,6 +1,9 @@
 package forms.state;
 
+import gui.main.form.MainFrame;
+
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -46,9 +49,9 @@ public class InsertState implements State {
 				pstmt.execute();
 				DBConnection.getConnection().commit();
 				table.reload();
-			} catch (Exception e) {
-				DBConnection.getConnection().rollback();
-				throw e;
+			} catch (SQLException e) {
+//				DBConnection.getConnection().rollback();
+				MainFrame.getInstance().showSqlExceptionError(e);
 			}
 
 		 	
