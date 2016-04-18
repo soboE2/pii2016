@@ -1,6 +1,5 @@
 package actions.standard.form;
 
-import forms.state.InsertState;
 import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
@@ -24,6 +23,7 @@ public class AddAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		standardForm.restartField();
 		standardForm.getStateManager().changeToInsertState();
 	}
 }

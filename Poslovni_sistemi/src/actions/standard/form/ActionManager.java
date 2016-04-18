@@ -28,7 +28,7 @@ public class ActionManager {
 		nextAction = new NextAction(standardForm);
 		nextFormAction = new NextFormAction(standardForm);
 		pickupAction = new PickupAction(standardForm);
-		refreshAction = new RefreshAction();
+		refreshAction = new RefreshAction(standardForm);
 		rollbackAction = new RollbackAction(standardForm);
 		searchAction = new SearchAction(standardForm);
 		previousAction = new PreviousAction(standardForm);

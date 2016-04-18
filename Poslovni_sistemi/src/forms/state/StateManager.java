@@ -75,7 +75,7 @@ public class StateManager {
 		currentState = insertState;
 		setCurrStirng();
 		form.getActionManager().getDeleteAction().setEnabled(false);
-		form.getActionManager().getSearchAction().setEnabled(false);	
+		form.getActionManager().getSearchAction().setEnabled(false);
 	}
 	private void setCurrStirng(){
 		current = currentState.toString();

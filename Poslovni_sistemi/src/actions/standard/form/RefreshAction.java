@@ -1,5 +1,7 @@
 package actions.standard.form;
 
+import gui.standard.form.StandardForm;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -9,15 +11,16 @@ public class RefreshAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-
-	public RefreshAction() {
+	private StandardForm standardForm;
+	
+	public RefreshAction(StandardForm form) {
 		putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/img/refresh.gif")));
 		putValue(SHORT_DESCRIPTION, "Refresh");
-
+		this.standardForm = form;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		
+	public void actionPerformed(ActionEvent e) {
+
 	}
 }

@@ -1,10 +1,6 @@
 package forms.state;
 
-import gui.main.form.ErrorDialog;
-import gui.standard.form.StandardForm;
-
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,11 +21,8 @@ public class InsertState implements State {
 
 	@Override
 	public void comit(ArrayList<Column> columns, String code,
-			Map<Column, JComponent> form,MyTableModel table) throws Exception {
-		// TODO Auto-generated method stub
-		
+		 Map<Column, JComponent> form,MyTableModel table) throws Exception {
 
-		// TODO Auto-generated method stub
 		 String insertSQL = "INSERT INTO " + code + " (";
 		 String values = "VALUES (";
 		 for(int i = 0; i < columns.size(); i++){ 
@@ -54,22 +47,15 @@ public class InsertState implements State {
 				DBConnection.getConnection().commit();
 				table.reload();
 			} catch (Exception e) {
-				// TODO Auto-generated catch bloc
 				DBConnection.getConnection().rollback();
 				throw e;
-			}finally{
-				try{
-					DBConnection.getConnection().close();
-				}catch(SQLException e){
-					e.printStackTrace();
-				}
 			}
-			
+
+		 	
 	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "dodavanje";
 	}
 	

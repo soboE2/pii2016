@@ -21,7 +21,6 @@ public class ZoomButtonListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("tableCODE " + itemS);
 		MyMenuItems item = MainFrame.getInstance().getItem(itemS);
 		StandardForm form = new StandardForm(item);
 		form.setVisible(true);

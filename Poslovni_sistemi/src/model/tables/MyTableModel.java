@@ -32,7 +32,6 @@ public class MyTableModel extends DefaultTableModel{
 		try {
 			fillData(basicQuery);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -43,7 +42,6 @@ public class MyTableModel extends DefaultTableModel{
 		try {
 			fillData(basicQuery);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -59,12 +57,10 @@ public class MyTableModel extends DefaultTableModel{
 		
 		rset.close();
 		stmt.close();
-		fireTableDataChanged();
-
+//		fireTableDataChanged();
 	}
 
 	public void addRow(ResultSet rset) throws SQLException{
-		
 		ArrayList<Column> columns =item.getColuumns();
 		Object[] row = new Object[columns.size()];
 		for(int i=0; i<columns.size(); i++){
@@ -80,6 +76,7 @@ public class MyTableModel extends DefaultTableModel{
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
+	@SuppressWarnings("unused")
 	private int sortedInsert(String sifra, String naziv) {
 
 		int left = 0;

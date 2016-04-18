@@ -6,11 +6,13 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+
+import model.tables.Column;
 
 public class PickupAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
-	@SuppressWarnings("unused")
 	private StandardForm standardForm;
 	
 	public PickupAction(StandardForm standardForm) {
@@ -22,6 +24,6 @@ public class PickupAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
+
 	}
 }

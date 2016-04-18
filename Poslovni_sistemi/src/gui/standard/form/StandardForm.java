@@ -7,9 +7,6 @@ import gui.standard.form.listeners.ZoomButtonListener;
 import gui.standard.menuItem.MyMenuItems;
 
 import java.awt.Dimension;
-import java.awt.MenuItem;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,22 +26,31 @@ import model.tables.MyTableModel;
 import net.miginfocom.swing.MigLayout;
 import actions.standard.form.ActionManager;
 import actions.standard.form.CommitAction;
+import actions.standard.form.FirstAction;
+import actions.standard.form.LastAction;
+import actions.standard.form.NextAction;
+import actions.standard.form.PreviousAction;
 import actions.standard.form.RollbackAction;
 
 public class StandardForm extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private JToolBar toolBar;
-	private JButton btnAdd, btnCommit, btnDelete, btnFirst, btnLast, btnHelp,
-			btnNext, btnNextForm, btnPickup, btnRefresh, btnRollback,
-			btnSearch, btnPrevious;
+	private JButton btnRollback, btnCommit;
+//		, btnDelete, btnFirst, btnLast, btnHelp,
+//			btnNext, btnNextForm, btnPickup, btnRefresh,
+//			btnSearch, btnPrevious;
 	private MainTable tblGrid = new MainTable();
 	public Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
 	private StateManager stateManager = new StateManager(this);
 	private ActionManager actionManager = new ActionManager(this);
 	private StatusBar status;
+	private MyTableModel model;
 
+	/**Konstreuktor
+	 * @param item Tabela za koju se kreira standardna forma
+	 */
 	public StandardForm(MyMenuItems item) {
 		this.items = item;
 		setLayout(new MigLayout("fill"));
@@ -57,78 +63,133 @@ public class StandardForm extends JDialog {
 		initGui(item);
 		tblGrid.getSelectionModel().addListSelectionListener(
 				new RowSelectionListener(this));
-		
-	}	
 
+	}
+
+	/**Inicijalizacija tabele
+	 * @param item Tabela za koju se kreira standardna forma
+	 */
 	private void initTable(MyMenuItems item) {
 		JScrollPane scrollPane = new JScrollPane(tblGrid);
 		add(scrollPane, "grow, wrap");
-		MyTableModel model = new MyTableModel(item);
+		model = new MyTableModel(item);
 
 		tblGrid.setModel(model);
 		tblGrid.setRowSelectionAllowed(true);
 		tblGrid.setColumnSelectionAllowed(false);
 		tblGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		refreshButton();
 	}
 
+	/**Metoda koja na osnovu broja redova u tabeli,vrsi ukljucivanje ili iskljucivanje akcija
+	 * namenjenih za kretanje kroz tabelu {@link NextAction}, {@link PreviousAction}, {@link FirstAction}}, {@link LastAction}}
+	 */
+	public void refreshButton() {
+		if (tblGrid.getRowCount() == 0) {
+			this.getActionManager().getNextAction().setEnabled(false);
+			this.getActionManager().getPreviousAction().setEnabled(false);
+			this.getActionManager().getFirstAction().setEnabled(false);
+			this.getActionManager().getLastAction().setEnabled(false);
+		} else {
+			this.getActionManager().getNextAction().setEnabled(true);
+			this.getActionManager().getPreviousAction().setEnabled(true);
+			this.getActionManager().getFirstAction().setEnabled(true);
+			this.getActionManager().getLastAction().setEnabled(true);
+		}
+	}
+
+	/** Ponistavanje teksutalnih polja 
+	 */
+	public void restartField() {
+		for (Column col : items.getColuumns()) {
+			JTextField textF = ((JTextField) form.get(col));
+			textF.setText("");
+		}
+		tblGrid.clearSelection();
+	}
+
+	
+	/**
+	 * Inicijalizacija tolbara standardne forme
+	 */
 	private void initToolbar() {
 
 		toolBar = new JToolBar();
-		
-		/*btnSearch = new JButton(new SearchAction(this));
-		toolBar.add(btnSearch);*/
+
+		/*
+		 * btnSearch = new JButton(new SearchAction(this));
+		 * toolBar.add(btnSearch);
+		 */
 		toolBar.add(actionManager.getSearchAction());
 
-		/*btnRefresh = new JButton(new RefreshAction());
-		toolBar.add(btnRefresh);*/
+		/*
+		 * btnRefresh = new JButton(new RefreshAction());
+		 * toolBar.add(btnRefresh);
+		 */
 		toolBar.add(actionManager.getRefreshAction());
 
-		/*btnPickup = new JButton(new PickupAction(this));
-		toolBar.add(btnPickup);*/
+		/*
+		 * btnPickup = new JButton(new PickupAction(this));
+		 * toolBar.add(btnPickup);
+		 */
 		toolBar.add(actionManager.getPickupAction());
 
-		/*btnHelp = new JButton(new HelpAction());
-		toolBar.add(btnHelp);*/
+		/*
+		 * btnHelp = new JButton(new HelpAction()); toolBar.add(btnHelp);
+		 */
 		toolBar.add(actionManager.getHelpAction());
 
 		toolBar.addSeparator();
 
-		/*btnFirst = new JButton(new FirstAction(this));
-		toolBar.add(btnFirst);*/
+		/*
+		 * btnFirst = new JButton(new FirstAction(this)); toolBar.add(btnFirst);
+		 */
 		toolBar.add(actionManager.getFirstAction());
 
-		/*btnPrevious = new JButton(new PreviousAction(this));
-		toolBar.add(btnPrevious);*/
+		/*
+		 * btnPrevious = new JButton(new PreviousAction(this));
+		 * toolBar.add(btnPrevious);
+		 */
 		toolBar.add(actionManager.getPreviousAction());
 
-		/*btnNext = new JButton(new NextAction(this));
-		toolBar.add(btnNext);*/
+		/*
+		 * btnNext = new JButton(new NextAction(this)); toolBar.add(btnNext);
+		 */
 		toolBar.add(actionManager.getNextAction());
 
-		/*btnLast = new JButton(new LastAction(this));
-		toolBar.add(btnLast);*/
+		/*
+		 * btnLast = new JButton(new LastAction(this)); toolBar.add(btnLast);
+		 */
 		toolBar.add(actionManager.getLastAction());
 
 		toolBar.addSeparator();
 
-		/*btnAdd = new JButton(new AddAction(this));
-		toolBar.add(btnAdd);*/
+		/*
+		 * btnAdd = new JButton(new AddAction(this)); toolBar.add(btnAdd);
+		 */
 		toolBar.add(actionManager.getAddAction());
 
-		/*btnDelete = new JButton(new DeleteAction(this));
-		toolBar.add(btnDelete);*/
+		/*
+		 * btnDelete = new JButton(new DeleteAction(this));
+		 * toolBar.add(btnDelete);
+		 */
 		toolBar.add(actionManager.getDeleteAction());
 
 		toolBar.addSeparator();
 
-		/*btnNextForm = new JButton(new NextFormAction(this));
-		toolBar.add(btnNextForm);*/
+		/*
+		 * btnNextForm = new JButton(new NextFormAction(this));
+		 * toolBar.add(btnNextForm);
+		 */
 		toolBar.add(actionManager.getNextFormAction());
 
 		add(toolBar, "dock north");
 	}
 
+	
+	/**Inicijalizacija gui
+	 * @param item Tabela za koju se kreira standardna forma
+	 */
 	private void initGui(MyMenuItems item) {
 
 		JPanel bottomPanel = new JPanel();
@@ -142,46 +203,48 @@ public class StandardForm extends JDialog {
 
 		ArrayList<Column> columns = item.getColuumns();
 
-		int i = 0;
-		for (Column col : columns) {
 
-			JLabel lblSifra = new JLabel(col.getName() + ":");
+		
+		for(int i=0; i<columns.size(); i++){
+			Column col = columns.get(i);
+			JLabel lblSifra;
+			if (col.isMandatory() || col.isFk() || col.isPk()) {
+				lblSifra = new JLabel(col.getName() + " * :");
+			} else {
+				lblSifra = new JLabel(col.getName() + ":");
+			}
+			
 			JTextField tFiel = new JTextField(20);
 			JButton button = new JButton("...");
-			if(col.isFk())
-				button.addActionListener(new ZoomButtonListener(col.getFkTableCode()));
+			if (col.isFk())
+				button.addActionListener(new ZoomButtonListener(col
+						.getFkTableCode()));
 			form.put(col, tFiel);
-			i++;
-
 			if (columns.size() < 5) {
 				dataPanel.add(lblSifra);
-				
-				if(col.isFk()){
+
+				if (col.isFk()) {
+					tFiel.setEnabled(false);
 					dataPanel.add(tFiel);
-					dataPanel.add(button,"wrap");
-				}else
+					dataPanel.add(button, "wrap");
+				} else
 					dataPanel.add(tFiel, "wrap");
-				
-				
 			} else {
 				if (i % 3 == 0) {
 					dataPanel.add(lblSifra);
 					dataPanel.add(tFiel);
-					if(col.isFk())
+					if (col.isFk())
 						dataPanel.add(button);
 					dataPanel.add(new JLabel(), "wrap");
 				} else {
 					dataPanel.add(lblSifra);
 					dataPanel.add(tFiel);
-					if(col.isFk())
+					if (col.isFk())
 						dataPanel.add(button);
-					
+
 				}
 			}
-			
-			
 		}
-
 		bottomPanel.add(dataPanel);
 		buttonsPanel.setLayout(new MigLayout("wrap"));
 		buttonsPanel.add(btnCommit);
@@ -190,9 +253,23 @@ public class StandardForm extends JDialog {
 
 		add(bottomPanel, "grow, wrap");
 		status = new StatusBar(getStateManager().getCurrent());
-		add(status,"dock south");
+		add(status, "dock south");
 	}
 
+
+
+	public void fillForm() {
+		if (stateManager.getCurrentState() == stateManager.getEditState()) {
+			for (Column column : items.getColuumns()) {
+				JTextField textF = ((JTextField) form.get(column));
+				int row = tblGrid.getSelectedRow();
+				int col = items.getColuumns().indexOf(column);
+				textF.setText(tblGrid.getValueAt(row, col).toString());
+			}
+		}
+	}
+
+	
 	public StateManager getStateManager() {
 		return stateManager;
 	}
@@ -200,18 +277,8 @@ public class StandardForm extends JDialog {
 	public void setStateManager(StateManager stateManager) {
 		this.stateManager = stateManager;
 	}
-
-	public void fillForm() {
-		if (stateManager.getCurrentState() == stateManager.getEditState()){
-				for (Column column : items.getColuumns()) {
-					JTextField textF = ((JTextField) form.get(column));
-					int row = tblGrid.getSelectedRow();
-					int col = items.getColuumns().indexOf(column);
-					textF.setText(tblGrid.getValueAt(row, col).toString());
-				}
-		}
-	}
-
+	
+	
 	public MyMenuItems getItems() {
 		return items;
 	}
@@ -259,10 +326,9 @@ public class StandardForm extends JDialog {
 	public void setStatus(StatusBar status) {
 		this.status = status;
 	}
-	
-	
-	
-	
+
+	public MyTableModel getModel() {
+		return model;
+	}
 
 }
-
