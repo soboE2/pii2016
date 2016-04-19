@@ -37,9 +37,6 @@ public class StandardForm extends JDialog {
 
 	private JToolBar toolBar;
 	private JButton btnRollback, btnCommit;
-	// , btnDelete, btnFirst, btnLast, btnHelp,
-	// btnNext, btnNextForm, btnPickup, btnRefresh,
-	// btnSearch, btnPrevious;
 	private MainTable tblGrid = new MainTable();
 	public Map<Column, JComponent> form = new HashMap<Column, JComponent>();
 	MyMenuItems items;
@@ -49,16 +46,18 @@ public class StandardForm extends JDialog {
 	private MyTableModel model;
 	private StandardForm parentForm;
 
+	
+
 	/**
 	 * Konstreuktor
 	 * 
-	 * @param item
-	 *            Tabela za koju se kreira standardna forma
+	 * @param item Tabela za koju se kreira standardna forma
 	 */
 	public StandardForm(MyMenuItems item) {
 		this.items = item;
 		setLayout(new MigLayout("fill"));
 		setSize(new Dimension(800, 600));
+		setMaximumSize(new Dimension(800,600));
 		setTitle(item.getName());
 		setLocationRelativeTo(MainFrame.getInstance());
 		setModal(true);
@@ -86,20 +85,18 @@ public class StandardForm extends JDialog {
 
 	/**
 	 * Inicijalizacija tabele
-	 * 
-	 * @param item
-	 *            Tabela za koju se kreira standardna forma
+	 * @param item Tabela za koju se kreira standardna forma
 	 */
-	private void initTable(MyMenuItems item) {
-		JScrollPane scrollPane = new JScrollPane(tblGrid);
-		add(scrollPane, "grow, wrap");
+	private void initTable(MyMenuItems item) {	
+        JScrollPane scrollPane = new JScrollPane(tblGrid);
+        add(scrollPane, "grow, wrap");
 		model = new MyTableModel(item);
-
 		tblGrid.setModel(model);
 		tblGrid.setRowSelectionAllowed(true);
 		tblGrid.setColumnSelectionAllowed(false);
 		tblGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		refreshButton();
+		
 	}
 
 	/**
@@ -129,6 +126,7 @@ public class StandardForm extends JDialog {
 		for (Column col : items.getColuumns()) {
 			JTextField textF = ((JTextField) form.get(col));
 			textF.setText("");
+			textF.setEnabled(true);
 		}
 		tblGrid.clearSelection();
 	}
@@ -217,9 +215,7 @@ public class StandardForm extends JDialog {
 	 *            Tabela za koju se kreira standardna forma
 	 */
 	private void initGui(MyMenuItems item) {
-
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new MigLayout("fillx"));
+		JPanel bottomPanel = new JPanel(new MigLayout("fill"));
 		JPanel dataPanel = new JPanel();
 		dataPanel.setLayout(new MigLayout("gapx 15px"));
 
@@ -274,8 +270,8 @@ public class StandardForm extends JDialog {
 		buttonsPanel.add(btnCommit);
 		buttonsPanel.add(btnRollback);
 		bottomPanel.add(buttonsPanel, "dock east");
-
 		add(bottomPanel, "grow, wrap");
+		
 		status = new StatusBar(getStateManager().getCurrent());
 		add(status, "dock south");
 	}
@@ -287,6 +283,9 @@ public class StandardForm extends JDialog {
 				int row = tblGrid.getSelectedRow();
 				int col = items.getColuumns().indexOf(column);
 				textF.setText(tblGrid.getValueAt(row, col).toString());
+				if(column.isPk()){
+					textF.setEnabled(false);
+				}
 			}
 		}
 	}
@@ -354,5 +353,6 @@ public class StandardForm extends JDialog {
 	public StandardForm getParentForm() {
 		return parentForm;
 	}
+
 
 }

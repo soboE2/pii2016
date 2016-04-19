@@ -22,6 +22,7 @@ import database.DBConnection;
 public class InsertState implements State {
 
 
+	
 	@Override
 	public void comit(ArrayList<Column> columns, String code,
 		 Map<Column, JComponent> form,MyTableModel table) throws Exception {

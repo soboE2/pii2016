@@ -42,7 +42,6 @@ public class CommitAction extends AbstractAction {
 		MyTableModel table = (MyTableModel) standardForm.getTblGrid()
 				.getModel();
 		Map<Column, JComponent> form = standardForm.getForm();
-		if (state == standardForm.getStateManager().getInsertState()) {
 			try {
 				state.comit(columns, code, form, table);
 				standardForm.restartField();
@@ -54,15 +53,5 @@ public class CommitAction extends AbstractAction {
 						+ e1.getMessage());
 				error.setVisible(true);
 			}
-		}else if(state == standardForm.getStateManager().getEditState()){
-			try {
-				state.comit(columns, code, form, table);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				ErrorDialog error = new ErrorDialog("Nemoguce upisati podatke "
-						+ e1.getMessage());
-				error.setVisible(true);
-			}
-		}
 	}
 }

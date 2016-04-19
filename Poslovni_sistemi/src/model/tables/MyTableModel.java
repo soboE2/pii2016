@@ -76,6 +76,7 @@ public class MyTableModel extends DefaultTableModel{
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
+	
 	@SuppressWarnings("unused")
 	private int sortedInsert(String sifra, String naziv) {
 

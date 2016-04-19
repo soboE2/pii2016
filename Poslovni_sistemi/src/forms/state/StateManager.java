@@ -16,7 +16,6 @@ public class StateManager {
 		insertState = new InsertState();
 		editState = new EditState();
 		searchState = new SearchState();
-
 		currentState = editState;
 		current = editState.toString();
 		

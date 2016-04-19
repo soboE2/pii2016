@@ -4,7 +4,6 @@ import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
 
-import javax.crypto.spec.OAEPParameterSpec;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;

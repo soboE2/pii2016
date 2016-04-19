@@ -1,5 +1,6 @@
 package actions.standard.form;
 
+import gui.standard.form.MainTable;
 import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
@@ -7,11 +8,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
+import model.tables.Column;
+
 
 public class NextFormAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
-	@SuppressWarnings("unused")
 	private StandardForm standardForm;
 	
 	public NextFormAction(StandardForm standardForm) {

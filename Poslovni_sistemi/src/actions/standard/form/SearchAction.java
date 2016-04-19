@@ -1,6 +1,5 @@
 package actions.standard.form;
 
-import forms.state.SearchState;
 import gui.standard.form.StandardForm;
 
 import java.awt.event.ActionEvent;
@@ -21,6 +20,7 @@ public class SearchAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		standardForm.restartField();
 		standardForm.getStateManager().changeToSearchState();
 	}
 }

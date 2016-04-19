@@ -49,7 +49,7 @@ public class MainFrame extends JFrame{
 		setLocationRelativeTo(null);
 		setTitle("Poslovna");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	//	setExtendedState(MAXIMIZED_BOTH);
+//		setExtendedState(MAXIMIZED_BOTH);
 	//setUpMenu();
 		setUpMenuPDM();
 		addWindowListener(new WindowAdapter() {
