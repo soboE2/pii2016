@@ -29,11 +29,13 @@ public class SearchState implements State {
 			Map<Column, JComponent> form,MyTableModel table) throws SQLException, Exception {
 		// TODO Auto-generated method stub
 		
+		System.out.println("code");
+		
 		String searchSQL = "SELECT * FROM " + code + " WHERE ";
 		String conditions = "";
 		for(int i=0; i<columns.size(); i++) {
 			String type = columns.get(i).getType();
-			if (type.equals("varchar") || type.equals("char")) {
+			if (type.equals("varchar") || type.equals("char") ||type.equals("java.lang.String")) {
 				if (i == columns.size() - 1)
 					conditions += columns.get(i).getCode() + " LIKE ?";
 				else
