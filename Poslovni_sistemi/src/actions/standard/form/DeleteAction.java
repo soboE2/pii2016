@@ -38,34 +38,25 @@ public class DeleteAction extends AbstractAction {
 
 		String deleteSQL = "DELETE FROM " + code + " WHERE ";
 
-		for (int i = 0; i < columns.size(); i++) {
-			String type = columns.get(i).getType();
-			if (type.equals("java.lang.String")) {
-				if (i != columns.size() - 1) {
-					deleteSQL += columns.get(i).getCode() + " LIKE ";
-					deleteSQL += "? AND ";
-				} else {
-					deleteSQL += columns.get(i).getCode() + " LIKE ";
-					deleteSQL += "?;";
-				}
-			} else {
-				if (i != columns.size() - 1) {
-					deleteSQL += columns.get(i).getCode() + " = ";
-					deleteSQL += "? AND ";
-				} else {
-					deleteSQL += columns.get(i).getCode() + " = ";
-					deleteSQL += "?;";
+		for(Column col : columns){
+			String type = col.getType();
+			if(col.isPk()){
+				if (type.equals("java.lang.String")) {
+					deleteSQL += col.getCode() + " LIKE ?;";
+				}else{
+					deleteSQL += col.getCode() + " = ?";
 				}
 			}
-
 		}
 
 		try {
 			PreparedStatement pstmt = DBConnection.getConnection()
 					.prepareStatement(deleteSQL);
-			for (int i = 0; i < columns.size(); i++) {
-				JComponent comp = standardForm.form.get(columns.get(i));
-				Utils.setPrepared(pstmt, columns.get(i).getType(), comp, i + 1);
+			for(Column col : columns){
+				if(col.isPk()){
+					JComponent comp = standardForm.form.get(col);
+					Utils.setPrepared(pstmt, col.getType(), comp, 1);
+				}
 			}
 			pstmt.execute();
 			DBConnection.getConnection().commit();

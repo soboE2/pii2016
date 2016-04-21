@@ -39,8 +39,9 @@ public class InsertState implements State {
 			 }
 	
 		 }
+		
 		 insertSQL+=values;
-		 
+		 System.out.println(insertSQL);
 		 	try{
 				PreparedStatement pstmt=  DBConnection.getConnection().prepareStatement(insertSQL);
 				 for(int i = 0; i < columns.size(); i++){ 
@@ -53,7 +54,7 @@ public class InsertState implements State {
 			} catch (SQLException e) {
 //				DBConnection.getConnection().rollback();
 				MainFrame.getInstance().showSqlExceptionError(e);
-			}
+			} 
 
 		 	
 	}
