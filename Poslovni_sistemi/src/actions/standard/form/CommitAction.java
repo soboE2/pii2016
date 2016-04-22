@@ -35,23 +35,24 @@ public class CommitAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		State state = standardForm.getStateManager().getCurrentState();
-		ArrayList<Column> columns = standardForm.getItems().getColuumns();
-		String code = standardForm.getItems().getCode();
-		MyTableModel table = (MyTableModel) standardForm.getTblGrid()
-				.getModel();
-		Map<Column, JComponent> form = standardForm.getForm();
-			try {
-				state.comit(columns, code, form, table);
-				standardForm.restartField();
-				standardForm.refreshButton();
-
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				ErrorDialog error = new ErrorDialog("Nemoguce upisati podatke "
-						+ e1.getMessage());
-				error.setVisible(true);
-			}
+		if(standardForm.validateAllFields()){
+			State state = standardForm.getStateManager().getCurrentState();
+			ArrayList<Column> columns = standardForm.getItems().getColuumns();
+			String code = standardForm.getItems().getCode();
+			MyTableModel table = (MyTableModel) standardForm.getTblGrid()
+					.getModel();
+			Map<Column, JComponent> form = standardForm.getForm();
+				try {
+					state.comit(columns, code, form, table);
+					standardForm.restartField();
+					standardForm.refreshButton();
+	
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					ErrorDialog error = new ErrorDialog("Nemoguce upisati podatke "
+							+ e1.getMessage());
+					error.setVisible(true);
+				}
+		}
 	}
 }

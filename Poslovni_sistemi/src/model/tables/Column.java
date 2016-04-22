@@ -13,10 +13,12 @@ public class Column {
 	boolean isPk;
 	boolean isFk;
 	boolean isMandatory;
+	int length;
+	int precision;
 
 	
 	public Column(String type, String name, String code, boolean isPk,
-			boolean isFk,boolean isMandatory,String fkTableCode) {
+			boolean isFk,boolean isMandatory,String fkTableCode,int length,int precision) {
 		super();
 		this.type = type;
 		this.name = name;
@@ -25,6 +27,8 @@ public class Column {
 		this.isFk = isFk;
 		this.isMandatory = isMandatory;
 		this.fkTableCode = fkTableCode;
+		this.length = length;
+		this.precision = precision;
 	}
 	public String getType() {
 		return type;
@@ -56,6 +60,12 @@ public class Column {
 	public void setFk(boolean isFk) {
 		this.isFk = isFk;
 	}
+	public int getPrecision() {
+		return precision;
+	}
+	public void setPrecision(int precision) {
+		this.precision = precision;
+	}
 	public boolean isMandatory() {
 		return isMandatory;
 	}
@@ -68,6 +78,12 @@ public class Column {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
+	public int getLength() {
+		return length;
+	}
+	public void setLength(int length) {
+		this.length = length;
+	}
+	
 	
 }

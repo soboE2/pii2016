@@ -104,9 +104,11 @@ public class MainFrame extends JFrame{
 			    	String name = column.getName();
 			    	Column absCol= null;
 			    	if(column.getFkColParent() != null)
-			    		absCol= new Column(type, name, code,column.isPartOfPK(), column.isPartOfFK(),column.isMandatory(),column.getFkColParent().getParentTable());
+			    		
+			    		absCol= new Column(type, name, code,column.isPartOfPK(), column.isPartOfFK(),column.isMandatory(),
+			    				column.getFkColParent().getParentTable(),column.getLength(),column.getPrecision());
 			    	else
-			    		absCol= new Column(type, name, code,column.isPartOfPK(), column.isPartOfFK(),column.isMandatory(),null);
+			    		absCol= new Column(type, name, code,column.isPartOfPK(), column.isPartOfFK(),column.isMandatory(),null,column.getLength(),column.getPrecision());
 
 			    	col.add(absCol);
 			    }

@@ -16,11 +16,16 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 
+import com.toedter.calendar.JDateChooser;
+
+import rs.mgifos.mosquito.model.MetaColumn;
+import validation.MyValidator;
 import model.tables.Column;
 import model.tables.MyTableModel;
 import net.miginfocom.swing.MigLayout;
@@ -124,9 +129,12 @@ public class StandardForm extends JDialog {
 	 */
 	public void restartField() {
 		for (Column col : items.getColuumns()) {
-			JTextField textF = ((JTextField) form.get(col));
-			textF.setText("");
-			textF.setEnabled(true);
+			JComponent textF =  form.get(col);
+			if(textF instanceof JTextField){
+				((JTextField)textF).setText("");
+				textF.setEnabled(true);
+			}else if(textF instanceof JDateChooser)
+				((JDateChooser) textF).setDate(null);
 		}
 		tblGrid.clearSelection();
 	}
@@ -234,7 +242,7 @@ public class StandardForm extends JDialog {
 				lblSifra = new JLabel(col.getName() + ":");
 			}
 
-			JTextField tFiel = new JTextField(20);
+			JComponent tFiel = getComp(col);
 			JButton button = new JButton("...");
 			if (col.isFk())
 				button.addActionListener(new ZoomButtonListener(this, col
@@ -289,7 +297,58 @@ public class StandardForm extends JDialog {
 			}
 		}
 	}
+	
+	
+	public JComponent getComp(Column column){
+		
+		int size = column.getLength();
+		int precision = column.getPrecision();
+		
+		if(column.getType().equals("java.sql.Date")){
+			
+			JDateChooser comp = new JDateChooser();
+			comp.setInputVerifier(new MyValidator(this, comp, "Polje ne sme biti prazno"));
+			comp.setName(column.getCode());
+			return comp;
+		}else if(column.getType().equals("java.lang.Boolean")){
+			JRadioButton radio = new JRadioButton();
+			radio.setName(column.getCode());
+			radio.setInputVerifier(new MyValidator(this, radio, "Polje ne sme biti prazno"));
+			return radio;
+		}else  {
+			JTextField comp;
+			if( size > 0 && size <=30)
+			  comp = new JTextField(size);
+			else
+				comp = new JTextField(20);
+			
+			comp.setInputVerifier(new MyValidator(this, comp, "Polje ne sme biti prazno"));
+			comp.setName(column.getCode());
+			return comp;
+		}
+		
+		
+		
+	}
+	
+	public boolean validateAllFields() {
 
+		boolean inputVal = true;
+		for (Column col : form.keySet()) {
+			System.out.println("VALIDIRAA");
+			JComponent comp = form.get(col);
+				MyValidator myVal = (MyValidator) comp.getInputVerifier();
+				if (inputVal) {
+					inputVal = myVal.verify(comp);
+				} else {
+					myVal.verify(comp);
+				}
+			
+		}
+
+		return inputVal;
+
+	}
 	public StateManager getStateManager() {
 		return stateManager;
 	}

@@ -1,5 +1,13 @@
-/model/
 /actions/
+/app/
+/database/
 /forms/
 /gui/
+/img/
+/model/
+/org/
+/resources/
 /utils/
+/DBConnection.properties
+/validation/
+/components/

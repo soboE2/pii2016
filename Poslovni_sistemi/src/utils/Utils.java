@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -25,7 +27,7 @@ public class Utils {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if ( type.equals("numeric") || type.equals("float") || type.equals("decimal") ||type.equals("java.math.BigDecimal")){
+			}else if ( type.equals("java.math.BigDecimal")){
 					try {
 						if(((JTextField) inputValue).getText().length()>0)
 							pstmt.setDouble( i,Double.parseDouble(((JTextField)inputValue).getText()));
@@ -64,7 +66,13 @@ public class Utils {
 				}
 
 			}else if(type.equals("java.lang.Boolean")){
-				
+				JRadioButton butt = (JRadioButton) inputValue;
+				try {
+					pstmt.setBoolean(i,butt.isEnabled());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 	}
 	
